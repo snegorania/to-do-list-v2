@@ -5,8 +5,10 @@ import { useSelector } from 'react-redux';
 import { selectDeleteTaskId, deleteTask } from '../store/singleListSlice';
 import { deleteTaskToData } from '../store/dataSlice';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const DeleteTaskPage = () => {
+    const {t} = useTranslation();
     const navigate = useNavigate();
     const id = useSelector(selectDeleteTaskId);
     console.log(id);
@@ -17,7 +19,7 @@ const DeleteTaskPage = () => {
         navigate('..');
     }
 
-    return <DeleteModal mode="task" onDelete={handleDelete}/>
+    return <DeleteModal mode={t('taskMode')} onDelete={handleDelete}/>
 }
 
 export default DeleteTaskPage;

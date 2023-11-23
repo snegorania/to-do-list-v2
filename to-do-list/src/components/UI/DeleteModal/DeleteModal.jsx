@@ -4,8 +4,10 @@ import styles from "./DeleteModal.module.css";
 import { useNavigate } from "react-router-dom";
 import PrimaryButton from "../PrimaryButton/PrimaryButton";
 import SecondaryButton from "../SecondaryButton/SecondaryButton";
+import { useTranslation } from "react-i18next";
 
 const DeleteModal = ({ mode, onDelete }) => {
+  const {t} = useTranslation(); 
   const navigate = useNavigate();
   const handleClose = () => {
     navigate("..");
@@ -17,10 +19,10 @@ const DeleteModal = ({ mode, onDelete }) => {
       className={styles.window}
     >
       <div className={styles.wrapper}>
-        <p className={styles.text}>Are you sure that you want to delete this {mode}?</p>
+        <p className={styles.text}>{t("areYouSure", {mode: mode})}</p>
         <div className={styles.actions}>
-          <SecondaryButton onClick={handleClose}>Cancel</SecondaryButton>
-          <PrimaryButton onClick={onDelete}>Ok</PrimaryButton>
+          <SecondaryButton onClick={handleClose}>{t("cancel")}</SecondaryButton>
+          <PrimaryButton onClick={onDelete}>{t("ok")}</PrimaryButton>
         </div>
       </div>
     </Modal>

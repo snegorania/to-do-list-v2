@@ -8,8 +8,10 @@ import { useNavigate } from "react-router-dom";
 import { setDeleteTaskId } from "../../../store/singleListSlice";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const TaskInfo = ({ id }) => {
+  const {t} = useTranslation()
   const task = useSelector((state) => selectTaskById(state, id));
   const params = useParams();
   const navigate = useNavigate();
@@ -31,11 +33,11 @@ const TaskInfo = ({ id }) => {
       <div className={styles.wrapper}>
         <div className={styles.startInfo}>
           <div>
-            <h3 className={styles.label}>Title</h3>
+            <h3 className={styles.label}>{t('titleTask')}</h3>
             <p className={styles.title}>{task.title}</p>
           </div>
           <div>
-            <h3 className={styles.label}>Deadline</h3>
+            <h3 className={styles.label}>{t('deadline')}</h3>
             <p className={styles.deadline}>
               {task.deadline
                 ? `${new Date(task.deadline).getFullYear()}-${
@@ -45,13 +47,13 @@ const TaskInfo = ({ id }) => {
             </p>
           </div>
         </div>
-        <h3 className={styles.label}>Description</h3>
+        <h3 className={styles.label}>{t("descriptionTask")}</h3>
         <p className={styles.description}>{task.description}</p>
         <div>
-          <h3 className={styles.label}>Start Doing</h3>
+          <h3 className={styles.label}>{t("startDoing")}</h3>
           <div className={styles["date-time"]}>
             <div>
-              <h4 className={styles.subDate}>Date</h4>
+              <h4 className={styles.subDate}>{t("date")}</h4>
               <p className={styles.dateInfo}>
                 {task.startTime
                   ? new Date(task.startTime).toLocaleDateString()
@@ -59,7 +61,7 @@ const TaskInfo = ({ id }) => {
               </p>
             </div>
             <div>
-              <h4 className={styles.subDate}>Time</h4>
+              <h4 className={styles.subDate}>{t("time")}</h4>
               <p className={styles.dateInfo}>
                 {task.startTime
                   ? new Date(task.startTime).toLocaleTimeString('en', {hour: 'numeric', hour12: false, minute: 'numeric'})
@@ -69,10 +71,10 @@ const TaskInfo = ({ id }) => {
           </div>
         </div>
         <div>
-          <h3 className={styles.label}>End Doing</h3>
+          <h3 className={styles.label}>{t("endDoing")}</h3>
           <div className={styles["date-time"]}>
             <div>
-              <h4 className={styles.subDate}>Date</h4>
+              <h4 className={styles.subDate}>{t("date")}</h4>
               <p className={styles.dateInfo}>
                 {task.endTime
                   ? new Date(task.endTime).toLocaleDateString()
@@ -80,7 +82,7 @@ const TaskInfo = ({ id }) => {
               </p>
             </div>
             <div>
-              <h4 className={styles.subDate}>Time</h4>
+              <h4 className={styles.subDate}>{t("time")}</h4>
               <p className={styles.dateInfo}>
                 {task.endTime
                   ? new Date(task.endTime).toLocaleTimeString('en', {hour: 'numeric', hour12: false, minute: 'numeric'})
@@ -90,8 +92,8 @@ const TaskInfo = ({ id }) => {
           </div>
         </div>
         <div className={styles.actions}>
-          <SecondaryButton type="button">Edit</SecondaryButton>
-          <SecondaryButton type="button" onClick={handleDelete}>Delete</SecondaryButton>
+          <SecondaryButton type="button">{t("edit")}</SecondaryButton>
+          <SecondaryButton type="button" onClick={handleDelete}>{t("delete")}</SecondaryButton>
         </div>
       </div>
     </Modal>

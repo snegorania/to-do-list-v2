@@ -1,22 +1,52 @@
+import { useState } from "react";
 import Task from "./Task/Task";
 import styles from "./TaskList.module.css";
+import { DragDropContext, Draggable } from "react-beautiful-dnd";
+import { StrictModeDroppable as Droppable } from "../../utils/StrictModeDroppable";
 
 const TaskList = ({ tasks }) => {
+  const [taskList, setTaskList] = useState(tasks);
+
+  const handleDragEnd = (result) => {
+    if (!result.destination) return;
+    const tasks = [...taskList];
+    const [reorderedItem] = tasks.splice(result.source.index, 1);
+    tasks.splice(result.destination.index, 0, reorderedItem);
+    setTaskList(tasks);
+  }
+
   return (
-    <>
-      <ul className={styles["task-list"]}>
-        {tasks.map((el) => (
-          <li key={el.id}>
-            <Task
-              id={el.id}
-              title={el.title}
-              isImportant={el.isImportant}
-              isMyDay={el.isMyDay}
-            />
-          </li>
-        ))}
-      </ul>
-    </>
+    <DragDropContext onDragEnd={handleDragEnd}>
+      <Droppable droppableId="tasks">
+        {(provided) => (
+          <ul
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+            className={styles["task-list"]}
+          >
+            {taskList.map((el, index) => (
+              <Draggable key={el.id} draggableId={el.id} index={index}>
+                {(provided) => (
+                  <li
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    ref={provided.innerRef}
+                  >
+                    <Task
+                      id={el.id}
+                      title={el.title}
+                      isImportant={el.isImportant}
+                      isMyDay={el.isMyDay}
+                    />
+                  </li>
+                )}
+              </Draggable>
+            ))}
+            {provided.placeholder}
+          </ul>
+        )}
+      </Droppable>
+    </DragDropContext>
   );
 };
 

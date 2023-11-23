@@ -1,21 +1,25 @@
-import React, { useState, useRef, useEffect, useMemo } from "react";
+import React, { useState, useRef, useMemo } from "react";
 import styles from "./List.module.css";
 import { useSelector } from "react-redux";
 import { selectListFromData } from "../../../store/dataSlice";
 import { FaListCheck } from "react-icons/fa6";
 import { IoIosArrowForward } from "react-icons/io";
-import TaskList from "../../Tasks/TaskList";
 import { CSSTransition } from "react-transition-group";
 import { IoTodayOutline } from "react-icons/io5";
 import { MdTaskAlt } from "react-icons/md";
 import { AiOutlineStar } from "react-icons/ai";
 import { useDispatch } from "react-redux";
-import { selectSingleList, setSingleList } from "../../../store/singleListSlice";
+import {
+  selectSingleList,
+  setSingleList,
+} from "../../../store/singleListSlice";
 import { Outlet } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const timeout = { enter: 400, exit: 200 };
 
 const List = ({ id }) => {
+  const {t} = useTranslation();
   const dispatch = useDispatch();
 
   const dataList = useSelector((state) => selectListFromData(state, id));
@@ -34,13 +38,31 @@ const List = ({ id }) => {
     <section className={styles.section}>
       <div className={styles["list-header"]}>
         <div className={styles["heading-wrapper"]}>
-          {list.isTasks && <MdTaskAlt className={styles["list-icon"]} />}
-          {list.isImportant && (
-            <AiOutlineStar className={styles["list-icon"]} />
+          {list.isTasks && (
+            <>
+              <MdTaskAlt className={styles["list-icon"]} />
+              <h2 className={styles["list-title"]}>{t('tasksList')}</h2>
+            </>
           )}
-          {list.isMyDay && <IoTodayOutline className={styles["list-icon"]} />}
-          {list.isUsers && <FaListCheck className={styles["list-icon"]} />}
-          <h2 className={styles["list-title"]}>{list.title}</h2>
+          {list.isImportant && (
+            <>
+              <AiOutlineStar className={styles["list-icon"]} />
+              <h2 className={styles["list-title"]}>{t('important')}</h2>
+            </>
+          )}
+          {list.isMyDay && (
+            <>
+              <IoTodayOutline className={styles["list-icon"]} />
+              <h2 className={styles["list-title"]}>{t("myDay")}</h2>
+            </>
+          )}
+          {list.isUsers && (
+            <>
+              <FaListCheck className={styles["list-icon"]} />
+              <h2 className={styles["list-title"]}>{list.title}</h2>
+            </>
+          )}
+          
         </div>
         {list.isUsers && (
           <CSSTransition
@@ -83,7 +105,7 @@ const List = ({ id }) => {
           </CSSTransition>
         </>
       )}
-      <Outlet/>
+      <Outlet />
     </section>
   );
 };

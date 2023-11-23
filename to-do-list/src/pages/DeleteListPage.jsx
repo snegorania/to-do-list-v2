@@ -5,8 +5,10 @@ import { useSelector } from 'react-redux';
 import { selectDeleteList, deleteList } from '../store/listsSlice';
 import { deleteListToData } from '../store/dataSlice';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const DeleteListPage = () => {
+    const {t} = useTranslation();
     const navigate = useNavigate();
     const id = useSelector(selectDeleteList);
     const dispatch = useDispatch();
@@ -16,7 +18,7 @@ const DeleteListPage = () => {
         navigate('..');
     }
 
-    return <DeleteModal mode="list" onDelete={handleDelete}/>
+    return <DeleteModal mode={t('listMode')} onDelete={handleDelete}/>
 }
 
 export default DeleteListPage;

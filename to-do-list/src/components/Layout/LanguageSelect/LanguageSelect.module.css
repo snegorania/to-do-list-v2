@@ -1,0 +1,14 @@
+.select {
+  display: block;
+  width: 120px;
+  height: 60px;
+  border: none;
+  background-color: transparent;
+}
+
+.select option[value="en"] {
+  background-image: url(../../../app/assets/en.png);
+}
+.select option[value="ru"] {
+  background-image: url(../../../app/assets/ru.jpg);
+}

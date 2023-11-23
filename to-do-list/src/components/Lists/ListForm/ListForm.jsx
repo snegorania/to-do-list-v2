@@ -13,16 +13,16 @@ import { updateList } from "../../../store/listsSlice";
 import { isNotEmpty, notRequired } from "../../../utils/validations";
 import PrimaryButton from '../../UI/PrimaryButton/PrimaryButton'
 import SecondaryButton from "../../UI/SecondaryButton/SecondaryButton";
-
-
+import { useTranslation } from "react-i18next";
 
 function ListForm ({listForEdit, method}) {
+  const {t} = useTranslation()
 
   const [title, titleFunc] = useInput(isNotEmpty);
 
   const [description, descriptionFunc] = useInput(notRequired);
 
-  const formTitle = method === 'post' ? 'Add List Form' : 'Edit List Form';
+  const formTitle = method === 'post' ? t("addListForm") : t("editListForm");
 
   useEffect(() => {
     if (listForEdit) {
@@ -69,7 +69,7 @@ function ListForm ({listForEdit, method}) {
   return (
     <Modal className={styles.window} onClose={handleClose} title={formTitle}>
       <form onSubmit={handleSubmit} className={styles.form}>
-        <label htmlFor="list-title" className={styles.label}>Title</label>
+        <label htmlFor="list-title" className={styles.label}>{t("titleList")}</label>
         <Input
           id="list-title"
           name="title"
@@ -79,7 +79,7 @@ function ListForm ({listForEdit, method}) {
           onChange={titleFunc.handleChange}
           onBlur={titleFunc.handleBlur}
         />
-        <label htmlFor="list-deacription" className={styles.label}>Description</label>
+        <label htmlFor="list-deacription" className={styles.label}>{t("descriptionList")}</label>
         <Textarea
           id="list-deacription"
           name="description"
@@ -90,8 +90,8 @@ function ListForm ({listForEdit, method}) {
           onBlur={descriptionFunc.handleBlur}
         />
         <div className={styles.actions}>
-          <SecondaryButton type="button" onClick={handleClose}>Cancel</SecondaryButton>
-          <PrimaryButton>Save</PrimaryButton>
+          <SecondaryButton type="button" onClick={handleClose}>{t("cancel")}</SecondaryButton>
+          <PrimaryButton>{t("save")}</PrimaryButton>
         </div>
       </form>
     </Modal>

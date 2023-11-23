@@ -12,8 +12,10 @@ import { isNotEmpty, notRequired } from "../../../utils/validations";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import useGetTimePeriod from "../../../hooks/useGetTimePeriod";
+import { useTranslation } from 'react-i18next'
 
 function TaskForm({ method, defultValue }) {
+  const {t} = useTranslation();
   const listId = useParams().listId;
   const navigate = useNavigate();
   const [title, titleFunc] = useInput(isNotEmpty);
@@ -47,7 +49,7 @@ function TaskForm({ method, defultValue }) {
           <div className={styles["form-start"]}>
             <div>
               <label htmlFor="task-title" className={styles.label}>
-                Title
+                {t("titleTask")}
               </label>
               <Input
                 id="task-title"
@@ -60,7 +62,7 @@ function TaskForm({ method, defultValue }) {
             </div>
             <div>
               <label htmlFor="task-deadline" className={styles.label}>
-                Deadline
+                {t("deadline")}
               </label>
               <DateInput
                 id="task-deadline"
@@ -73,7 +75,7 @@ function TaskForm({ method, defultValue }) {
             </div>
           </div>
           <label htmlFor="task-deacription" className={styles.label}>
-            Description
+            {t("descriptionTask")}
           </label>
           <Textarea
             id="task-deacription"
@@ -85,7 +87,7 @@ function TaskForm({ method, defultValue }) {
             onBlur={descriptionFunc.handleBlur}
           />
           <label className={styles.label}>
-            Start Doing
+            {t("startDoing")}
             <span className={styles["date-time"]}>
               <DateInput
                 name="startDate"
@@ -106,7 +108,7 @@ function TaskForm({ method, defultValue }) {
             </span>
           </label>
           <label className={styles.label}>
-            End Doing
+            {t("endDoing")}
             <span className={styles["date-time"]}>
               <DateInput
                 name="endDate"
@@ -129,9 +131,9 @@ function TaskForm({ method, defultValue }) {
         </div>
         <div className={styles.actions}>
           <SecondaryButton onClick={handleClose} type="button">
-            Cancel
+            {t("cancel")}
           </SecondaryButton>
-          <PrimaryButton>Save</PrimaryButton>
+          <PrimaryButton>{t("save")}</PrimaryButton>
         </div>
       </form>
     </Modal>

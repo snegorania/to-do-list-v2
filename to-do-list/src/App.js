@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import './app/i18n';
 import RootLayout from "./pages/Layouts/RootLayout";
 import { createBrowserRouter } from "react-router-dom";
 import { RouterProvider } from "react-router-dom";
