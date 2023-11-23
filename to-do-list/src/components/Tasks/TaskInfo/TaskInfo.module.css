@@ -1,0 +1,64 @@
+.window {
+    width: 600px;
+}
+
+
+.wrapper {
+    margin: 20px 40px;
+}
+
+.startInfo {
+    display: flex;
+    width: 520px;
+    justify-content: space-between;
+}
+
+
+.title {
+    margin: 5px 0;
+    font-size:  20px;
+}
+
+.label {
+    margin: 0;
+    font-size: 20px;
+}
+
+.deadline {
+    width: 150px;
+    margin: 5px 0;
+    font-size:  20px;
+}
+
+.description {
+    margin: 0;
+    width: 520px;
+    height: 150px;
+    font-size: 20px;
+    overflow-y: scroll;
+}
+
+.subDate {
+    margin: 5px 0 0 0;
+    font-size: 15px;
+}
+
+.date-time {
+    display: flex;
+    width: 520px;
+    justify-content: space-between;
+}
+
+.dateInfo {
+    margin: 5px 0;
+    width: 250px;
+    font-size:  20px;
+}
+
+.actions {
+    display: flex;
+    width: 160px;
+    justify-content: space-between;
+    margin: 20px auto;
+    padding-bottom: 20px;
+}

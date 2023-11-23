@@ -1,0 +1,26 @@
+.section {
+    width: 100%;
+    height: calc(100vh - 151px);
+    overflow-y: scroll;
+}
+
+.section::-webkit-scrollbar {
+    width: 5px;
+}
+
+.section::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background-color: #2B7A78;
+}
+
+.add-task {
+    width: 50%;
+    background-color: #def2f1;
+    margin-left: 5px;
+    height: 40px;
+    border-radius: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: none;
+    cursor: pointer;
+}

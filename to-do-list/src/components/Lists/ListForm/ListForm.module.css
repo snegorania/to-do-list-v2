@@ -1,0 +1,62 @@
+.window {
+    width: 400px;
+}
+
+.form {
+    margin: 20px 40px;
+}
+
+.label {
+    font-size: 20px;
+}
+
+.input {
+    width: 320px;
+}
+
+.textarea {
+    width: 320px;
+    height: 100px;
+}
+
+.actions {
+    display: flex;
+    width: 160px;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-left: 160px;
+    padding-bottom: 20px;
+}
+
+.primary-button {
+    padding: 10px 20px;
+    border-radius: 10px;
+    background-color: #3aafa9;
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.primary-button:hover,
+.primary-button:active {
+    background-color: #2b7a78;
+    color: #ffffff;
+}
+
+.secondary-button {
+    padding: 10px 20px;
+    border-radius: 10px;
+    background-color: transparent;
+    color: #2b7a78;
+    border: 1px solid #2b7a78;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.secondary-button:hover,
+.secondary-button:active {
+    background-color: #2b7a78;
+    color: #ffffff;
+    border: 1px solid #2b7a78;
+}

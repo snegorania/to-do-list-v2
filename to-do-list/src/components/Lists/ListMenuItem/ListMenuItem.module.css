@@ -1,0 +1,49 @@
+.list {
+  width: 100%;
+  height: 45px;
+  border-bottom: 1px solid #65ccb8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  color: black;
+}
+
+.heading {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+  margin-left: 10px;
+  margin-right: 10px;
+  color: #2B7A78;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.controls {
+  display: flex;
+}
+
+.edit {
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+  color: #2B7A78;
+}
+
+.delete {
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+  color: #2B7A78;
+  cursor: pointer;
+}

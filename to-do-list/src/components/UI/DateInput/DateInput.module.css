@@ -1,0 +1,18 @@
+.input-date {
+    display: block;
+    height: 40px;
+    box-sizing: border-box;
+    padding: 10px 20px;
+    border: 1px solid #9b9b9b;
+    border-radius: 5px;
+    font-size: 20px;
+}
+
+.input-date:focus {
+    outline-color: #2b7a78;
+    box-shadow: 0 0 5px 0px #3aafa9;
+}
+
+.error {
+    border: 1px solid red;
+}

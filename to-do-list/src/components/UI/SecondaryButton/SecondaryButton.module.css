@@ -1,0 +1,16 @@
+.secondary-button {
+    padding: 10px 20px;
+    border-radius: 10px;
+    background-color: transparent;
+    color: #2b7a78;
+    border: 1px solid #2b7a78;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.secondary-button:hover,
+.secondary-button:active {
+    background-color: #2b7a78;
+    color: #ffffff;
+    border: 1px solid #2b7a78;
+}

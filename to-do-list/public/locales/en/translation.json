@@ -1,0 +1,21 @@
+{
+    "important": "Important",
+    "myDay": "My Day",
+    "tasks": "Tasks",
+    "addList": "Add List",
+    "titleList": "List Title",
+    "descriptionList": "List description",
+    "editListForm": "Edit List Form",
+    "addListForm": "Add List Form",
+    "addTask": "Add Task",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirmDelete": "Confirm Delete",
+    "areYouSure": "Are you sure that you want to delete this ?",
+    "ok": "Ok",
+    "date": "Date",
+    "time": "Time",
+    "edit": "Edit",
+    "delete": "Delete"
+
+}

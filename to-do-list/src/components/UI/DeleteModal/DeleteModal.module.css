@@ -1,0 +1,21 @@
+.window {
+    width: 350px;
+}
+
+.wrapper {
+    padding: 20px;
+}
+
+.text {
+    width: 70%;
+    margin: 0 auto;
+    font-size: 20px;
+    text-align: center;
+}
+
+.actions {
+    width: 200px;
+    display: flex;
+    justify-content: space-between;
+    margin: 20px auto 0 auto;
+}

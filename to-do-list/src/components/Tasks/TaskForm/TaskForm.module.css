@@ -1,0 +1,57 @@
+.window {
+    width: 600px;
+}
+
+
+.form {
+    margin: 20px 40px;
+}
+
+.wrapper {
+    width: 520px;
+    height: 400px;
+    overflow-y: scroll;
+}
+
+.wrapper::-webkit-scrollbar {
+    width: 5px;
+}
+
+.wrapper::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background-color: #2B7A78;
+}
+
+.form-start {
+    display: flex;
+    width: 510px;
+    justify-content: space-between;
+}
+
+.textarea {
+    width: 510px;
+    height: 150px;
+}
+
+.label {
+    font-size: 20px;
+}
+
+.date-time {
+    display: flex;
+    width: 510px;
+    justify-content: space-between;
+}
+
+.date-input {
+    width: 250px;
+}
+
+.actions {
+    display: flex;
+    width: 160px;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-left: 360px;
+    padding-bottom: 20px;
+}
