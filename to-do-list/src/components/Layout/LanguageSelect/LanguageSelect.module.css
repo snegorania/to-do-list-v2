@@ -1,14 +1,23 @@
 .select {
   display: block;
-  width: 120px;
-  height: 60px;
+  width: 125px;
+  height: 30px;
   border: none;
   background-color: transparent;
+  margin-right: 20px;
 }
+
+.option {
+  display: block;
+  width: 120px;
+  height: 60px;
+}
+
 
 .select option[value="en"] {
   background-image: url(../../../app/assets/en.png);
 }
+
 .select option[value="ru"] {
   background-image: url(../../../app/assets/ru.jpg);
 }

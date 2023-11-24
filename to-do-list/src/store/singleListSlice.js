@@ -12,6 +12,10 @@ const singleListSlice = createSlice({
     isUsers: false,
     tasks: [],
     deleteId: '',
+    paggination: {
+      allPages: 1,
+      currentPage: 1
+    }
   },
   reducers: {
     addTask(state, action) {

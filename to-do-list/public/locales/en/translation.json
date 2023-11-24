@@ -24,6 +24,7 @@
     "deadline": "Deadline",
     "listMode": "list",
     "taskMode": "task",
-    "english": "English",
-    "russian": "Russian"
+    "eng": "Eng",
+    "rus": "Rus",
+    "language": "Language"
 }
