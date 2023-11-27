@@ -1,5 +1,16 @@
 .section {
   width: 100%;
+  height: 90vh;
+  overflow-y: scroll;
+}
+
+.section::-webkit-scrollbar {
+  width: 5px;
+}
+
+.section::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background-color: #2B7A78;
 }
 
 .list-header {

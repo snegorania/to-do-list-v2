@@ -7,9 +7,9 @@ export function pageNumberCount(length, rows) {
   }
 }
 
-export function pagination(array, rowsNum, currPageNum) {
+export function pagination(array, rowsNum, currPageNum, extraRows) {
   let start = rowsNum * (currPageNum - 1);
-  let end = start + rowsNum;
+  let end = start + rowsNum + extraRows;
   if (end > array.length) {
     end = array.length;
   }

@@ -18,4 +18,4 @@ function useInput (func) {
     return [{value, isValid, isNotValid}, {handleChange, handleBlur, reset, setValue}];
 }
 
-export default useInput
+export default useInput;

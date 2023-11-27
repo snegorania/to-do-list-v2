@@ -1,0 +1,78 @@
+.pagElement {
+    width: 40px;
+    height: 40px;
+    margin-right: 2px;
+
+    box-sizing: border-box;
+    padding-top: 7px;
+    padding-bottom: 7px;
+
+    border: 2px solid #3AAFA9;
+    border-radius: 4px;
+    background-color: transparent;
+
+    font-size: 15px;
+    text-align: center;
+    color: #2B7A78;
+    cursor: pointer;
+}
+
+.pagElement:hover {
+    border: 2px solid #3AAFA9;
+    background-color: #3AAFA9;
+    color: black;
+}
+
+.current {
+    background-color: #2B7A78;
+    border: 2px solid #2B7A78;
+    color: #fff;
+}
+
+.pagDots {
+    width: 30px;
+    height: 30px;
+    padding-top: 15px;
+    text-align: center;
+    color: #2B7A78;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10px; 
+}
+
+.paginationButton {
+    height: 40px;
+    margin-right: 2px;
+
+    padding: 7px 10px;
+
+    border: 2px solid #3AAFA9;
+    border-radius: 4px;
+    background-color: transparent;
+
+    font-size: 15px;
+    color: #2B7A78;
+
+    cursor: pointer;
+}
+
+.paginationButton:hover {
+    border: 2px solid #3AAFA9;
+    background-color: #3AAFA9;
+    color: black;   
+}
+
+.selectInput {
+    width: 110px;
+    display: flex;
+    align-items: center;
+    margin-right: 2px;
+}
+
+.selectInput label {
+    margin-right: 10px;
+}

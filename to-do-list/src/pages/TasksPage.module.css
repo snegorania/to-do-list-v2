@@ -1,16 +1,5 @@
 .section {
     width: 100%;
-    height: calc(100vh - 151px);
-    overflow-y: scroll;
-}
-
-.section::-webkit-scrollbar {
-    width: 5px;
-}
-
-.section::-webkit-scrollbar-thumb {
-    border-radius: 2px;
-    background-color: #2B7A78;
 }
 
 .add-task {

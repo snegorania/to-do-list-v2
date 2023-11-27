@@ -1,11 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Task from "./Task/Task";
 import styles from "./TaskList.module.css";
 import { DragDropContext, Draggable } from "react-beautiful-dnd";
 import { StrictModeDroppable as Droppable } from "../../utils/StrictModeDroppable";
+import { useSelector } from "react-redux";
+import { selectPagination } from "../../store/singleListSlice";
 
 const TaskList = ({ tasks }) => {
   const [taskList, setTaskList] = useState(tasks);
+
+  useEffect(() => {
+    setTaskList(tasks);
+  }, [tasks])
+
+  const paggination = useSelector(selectPagination);
 
   const handleDragEnd = (result) => {
     if (!result.destination) return;
@@ -22,7 +30,7 @@ const TaskList = ({ tasks }) => {
           <ul
             {...provided.droppableProps}
             ref={provided.innerRef}
-            className={styles["task-list"]}
+            className={`${styles["task-list"]} ${tasks.length >= 7 && styles.scrollable}`}
           >
             {taskList.map((el, index) => (
               <Draggable key={el.id} draggableId={el.id} index={index}>

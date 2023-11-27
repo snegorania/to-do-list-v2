@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { setDeleteId } from "../../../store/listsSlice";
 import { useSelector } from "react-redux";
 import { selectImportant } from "../../../store/listsSlice";
+import { resetPagination } from "../../../store/singleListSlice";
 import {useTranslation} from 'react-i18next';
 
 // list function
@@ -26,9 +27,14 @@ function ListMenuItem({ id, title, isMyDay, isTasks, isImportant, isUsers }) {
     navigate(`/lists/${idImportant}/tasks/delete-list`);
   };
 
+  const handleNavigate = () => {
+    dispatch(resetPagination());
+    navigate(`${id}/tasks`)
+  }
+
   return (
     <div className={styles.list}>
-      <div onClick={() => navigate(`${id}/tasks`)} className={styles.heading}>
+      <div onClick={handleNavigate} className={styles.heading}>
         {isTasks && (
           <>
             <MdTaskAlt className={styles.icon} />
