@@ -26,5 +26,12 @@
     "taskMode": "task",
     "eng": "Eng",
     "rus": "Rus",
-    "language": "Language"
+    "language": "Language",
+    "openAll": "Open All",
+    "prev": "Prev",
+    "next": "Next",
+    "openMore": "Open {{rows}} next",
+    "rows": "Rows:",
+    "page": "Page:",
+    "allLists": "Your Task Lists"
 }

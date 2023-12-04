@@ -7,29 +7,44 @@ import { AiTwotoneEdit } from "react-icons/ai";
 import { IoTodayOutline } from "react-icons/io5";
 import { AiOutlineStar } from "react-icons/ai";
 import { MdTaskAlt } from "react-icons/md";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setDeleteId } from "../../../store/listsSlice";
+import { setChosenId } from "../../../store/listsSlice";
 import { useSelector } from "react-redux";
 import { selectImportant } from "../../../store/listsSlice";
 import { resetPagination } from "../../../store/singleListSlice";
 import {useTranslation} from 'react-i18next';
 
-// list function
 function ListMenuItem({ id, title, isMyDay, isTasks, isImportant, isUsers }) {
   const {t} = useTranslation()
   const navigate = useNavigate();
+  const params = useParams();
   const idImportant = useSelector(selectImportant);
   const dispatch = useDispatch();
 
   const handleDelete = () => {
-    dispatch(setDeleteId(id));
-    navigate(`/lists/${idImportant}/tasks/delete-list`);
+    dispatch(setChosenId(id));
+    if (params.listId && params.listId === id) {
+      navigate(`/lists/${idImportant}/tasks/delete-list`);
+    } else if (params.listId){
+      navigate(`tasks/delete-list`);
+    } else {
+      navigate('delete-list');
+    }
   };
+
+  const handleEdit = () => {
+    dispatch(setChosenId(id));
+    if (params.listId) {
+      navigate('tasks/edit-list');
+    } else {
+      navigate(`edit-list`);
+    }
+  }
 
   const handleNavigate = () => {
     dispatch(resetPagination());
-    navigate(`${id}/tasks`)
+    navigate(`/lists/${id}/tasks`)
   }
 
   return (
@@ -62,9 +77,7 @@ function ListMenuItem({ id, title, isMyDay, isTasks, isImportant, isUsers }) {
       </div>
       {isUsers && (
         <div className={styles.controls}>
-          <Link to={`/lists/${id}/tasks/edit-list`}>
-            <AiTwotoneEdit className={styles.edit} />
-          </Link>
+          <AiTwotoneEdit className={styles.edit} onClick={handleEdit}/>
           <BsTrashFill className={styles.delete} onClick={handleDelete} />
         </div>
       )}

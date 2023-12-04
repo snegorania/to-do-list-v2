@@ -13,7 +13,7 @@ const IconSingleValue = (props) => {
     <SingleValue {...props}>
       <img
         src={props.data.image}
-        style={{ height: "20px", width: "30px", marginRight: "10px" }}
+        className={styles.image}
       />
       {t(props.data.label)}
     </SingleValue>
@@ -26,7 +26,7 @@ const IconOption = (props) => {
     <Option {...props}>
       <img
         src={props.data.image}
-        style={{ height: "20px", width: "30px", marginRight: "10px" }}
+        className={styles.image}
       />
       {t(props.data.label)}
     </Option>

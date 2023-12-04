@@ -38,6 +38,7 @@
   height: 18px;
   margin-right: 10px;
   color: #2B7A78;
+  cursor: pointer;
 }
 
 .delete {

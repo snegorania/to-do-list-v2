@@ -6,15 +6,22 @@
 }
 
 .scrollable {
-    height: 435px;
-    overflow-y: scroll;
+    height: auto;
+    overflow-y: visiable;
 }
 
-.task-list::-webkit-scrollbar {
-    width: 5px;
-}
-  
-.task-list::-webkit-scrollbar-thumb {
-    border-radius: 2px;
-    background-color: #2B7A78;
+@media only screen and (min-width: 500px) {
+    .scrollable {
+        height: 435px;
+        overflow-y: scroll;
+    }
+    
+    .task-list::-webkit-scrollbar {
+        width: 5px;
+    }
+      
+    .task-list::-webkit-scrollbar-thumb {
+        border-radius: 2px;
+        background-color: #2B7A78;
+    }
 }

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import { SM, MD, LG, XL, XXL } from "../app/breakpoints";
 
-export const useResize = () => {
+export const useResize = (bp) => {
   const [width, setWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -17,10 +16,6 @@ export const useResize = () => {
 
   return {
     width,
-    isScreenSm: width >= SM && width < MD,
-    isScreenMd: width >= MD && width < LG,
-    isScreenLg: width >= LG && width < XL,
-    isScreenXl: width >= XL && width < XXL,
-    isScreenXxl: width >= XXL,
+    isScreenBp: width >= bp
   };
 };

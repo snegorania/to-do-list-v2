@@ -1,13 +1,17 @@
 .aside {
-    width: 400px;
+    width: 300px;
     height: calc(100vh - 70px);
     background-color: #DEF2F1;
+}
+
+.asideHeight {
+    height: calc(94vh - 70px);
 }
 
 .add-button {
     display: block;
     width: 100%;
-    height: 6vh;
+    height: 8vh;
     box-sizing: border-box;
     padding-top: 1vh;
     background-color: #3aafa9;
@@ -16,4 +20,13 @@
     text-decoration: none;
     text-align: center;
     color: #000;
+}
+
+@media only screen and (min-width: 1280px) {
+    .aside {
+        width: 400px;
+    }
+    .add-button {
+        height: 6vh;
+    }
 }

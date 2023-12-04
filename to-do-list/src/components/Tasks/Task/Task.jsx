@@ -6,7 +6,7 @@ import { MdStarBorder } from "react-icons/md";
 import InvisiableButton from "../../UI/InvisiableButton/InvisiableButton";
 import { IoToday } from "react-icons/io5";
 import { IoTodayOutline } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 // function of task component
 function Task({ title, id, isImportant, isMyDay }) {

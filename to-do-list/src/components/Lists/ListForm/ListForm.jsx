@@ -36,7 +36,7 @@ function ListForm ({listForEdit, method}) {
   const dispatch = useDispatch();
 
   const handleClose = () => {
-    navigate(`/lists/${id}/tasks`);
+    navigate(`..`);
   }
 
   const handleSubmit = e => {

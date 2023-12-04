@@ -1,23 +1,39 @@
 .select {
   display: block;
-  width: 125px;
+  width: 100px;
   height: 30px;
   border: none;
   background-color: transparent;
   margin-right: 20px;
+  font-size: 10px;
 }
 
 .option {
   display: block;
-  width: 120px;
-  height: 60px;
+  width: 60px;
+  height: 30px;
 }
 
-
-.select option[value="en"] {
-  background-image: url(../../../app/assets/en.png);
+.image {
+  height: 10px;
+  width: 10px;
+  margin-right: 5px;
 }
 
-.select option[value="ru"] {
-  background-image: url(../../../app/assets/ru.jpg);
+@media only screen and (min-width: 678px) {
+  .select {
+    width: 120px;
+    height: 40px;
+    font-size: 15px;
+  }
+  
+  .option {
+    width: 110px;
+    height: 40px;
+  }
+  
+  .image {
+    height: 20px;
+    width: 20px;
+  }
 }

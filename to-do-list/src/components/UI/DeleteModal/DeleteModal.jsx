@@ -14,7 +14,7 @@ const DeleteModal = ({ mode, onDelete }) => {
   };
   return (
     <Modal
-      title="Confirm delete"
+      title={t("confirmDelete")}
       onClose={handleClose}
       className={styles.window}
     >

@@ -54,7 +54,7 @@ export const Tasks = [
     isImportant: true,
     isMyDay: true,
     listId: "l4",
-    description: "Add new task function",
+    description: "Add new task function Add new task function Add new task function Add new task function Add new task function Add new task function Add new task function Add new task function Add new task function Add new task function Add new task function Add new task function Add new task function adnc jdnw",
     startTime: null,
     endTime: null,
     deadline: "2023-11-14T12:00:00",

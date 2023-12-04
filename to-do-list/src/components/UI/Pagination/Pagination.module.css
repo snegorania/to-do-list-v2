@@ -66,13 +66,3 @@
     color: black;   
 }
 
-.selectInput {
-    width: 110px;
-    display: flex;
-    align-items: center;
-    margin-right: 2px;
-}
-
-.selectInput label {
-    margin-right: 10px;
-}

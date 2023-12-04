@@ -7,13 +7,20 @@ export function pageNumberCount(length, rows) {
   }
 }
 
-export function pagination(array, rowsNum, currPageNum, extraRows) {
+export const getPaginationBorders = (array, rowsNum, currPageNum, extraRows) => {
   let start = rowsNum * (currPageNum - 1);
   let end = start + rowsNum + extraRows;
   if (end > array.length) {
     end = array.length;
   }
-  return array.slice(start, end);
+  return {
+    start, end
+  }
+}
+
+export function pagination(array, rowsNum, currPageNum, extraRows) {
+  const borders = getPaginationBorders(array, rowsNum, currPageNum, extraRows)
+  return array.slice(borders.start, borders.end);
 }
 
 export function formPagControlArr(currentPage, pageNum) {

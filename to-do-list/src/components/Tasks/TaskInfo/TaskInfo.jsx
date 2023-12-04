@@ -91,10 +91,10 @@ const TaskInfo = ({ id }) => {
             </div>
           </div>
         </div>
-        <div className={styles.actions}>
+      </div>
+      <div className={styles.actions}>
           <SecondaryButton type="button">{t("edit")}</SecondaryButton>
           <SecondaryButton type="button" onClick={handleDelete}>{t("delete")}</SecondaryButton>
-        </div>
       </div>
     </Modal>
   );

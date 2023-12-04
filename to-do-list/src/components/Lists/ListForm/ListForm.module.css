@@ -1,9 +1,9 @@
 .window {
-    width: 400px;
+    width: 100vw;
 }
 
 .form {
-    margin: 20px 40px;
+    margin: 20px 30px;
 }
 
 .label {
@@ -22,41 +22,65 @@
 .actions {
     display: flex;
     width: 160px;
-    justify-content: space-between;
+    justify-content: flex-end;
     margin-top: 20px;
     margin-left: 160px;
     padding-bottom: 20px;
 }
 
-.primary-button {
-    padding: 10px 20px;
-    border-radius: 10px;
-    background-color: #3aafa9;
-    border: none;
-    color: white;
-    cursor: pointer;
-    transition: all 0.3s ease;
+
+@media only screen and (min-width: 400px) {
+    .form {
+        margin: 20px 50px;
+    }
+    
+    .window {
+        width: 400px;
+    }
 }
 
-.primary-button:hover,
-.primary-button:active {
-    background-color: #2b7a78;
-    color: #ffffff;
+@media only screen and (min-width: 768px) {
+    .window {
+        width: 600px;
+    }
+
+    .form {
+        margin: 20px 40px;
+    }
+
+    .input {
+        width: 500px;
+    }
+
+    .textarea {
+        width: 500px;
+        height: 200px;
+    }
+
+    .actions {
+        margin-left: 340px;
+    }
 }
 
-.secondary-button {
-    padding: 10px 20px;
-    border-radius: 10px;
-    background-color: transparent;
-    color: #2b7a78;
-    border: 1px solid #2b7a78;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
+@media only screen and (min-width: 1024px) {
+    .window {
+        width: 450px;
+    }
 
-.secondary-button:hover,
-.secondary-button:active {
-    background-color: #2b7a78;
-    color: #ffffff;
-    border: 1px solid #2b7a78;
+    .form {
+        margin: 20px 25px;
+    }
+
+    .input {
+        width: 400px;
+    }
+
+    .textarea {
+        width: 400px;
+        height: 150px;
+    }
+
+    .actions {
+        margin-left: 245px;
+    }
 }

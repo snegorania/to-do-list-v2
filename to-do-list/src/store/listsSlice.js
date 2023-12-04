@@ -4,7 +4,7 @@ const listsSlice = createSlice({
   name: "lists",
   initialState: {
     lists: [],
-    deleteId: ''
+    chosenId: ''
   },
   reducers: {
     addList(state, action) {
@@ -27,8 +27,8 @@ const listsSlice = createSlice({
     setLists(state, action) {
       state.lists = action.payload;
     },
-    setDeleteId(state, action) {
-      state.deleteId = action.payload;
+    setChosenId(state, action) {
+      state.chosenId = action.payload;
     },
   },
 });
@@ -36,7 +36,8 @@ const listsSlice = createSlice({
 export const selectAllLists = (state) => state.lists.lists;
 export const selectListById = (state, id) => state.lists.lists.find(list => id === list.id);
 export const selectImportant = (state) => state.lists.lists.find(list => list.isImportant).id;
-export const selectDeleteList = (state) => state.lists.deleteId;
-export const { addList, deleteList, updateList, setLists, setDeleteId } = listsSlice.actions;
+export const selectChosenId = (state) => state.lists.chosenId;
+export const selectChosenList = (state) => state.lists.lists.find(list => state.lists.chosenId === list.id);
+export const { addList, deleteList, updateList, setLists, setChosenId } = listsSlice.actions;
 
 export default listsSlice.reducer;

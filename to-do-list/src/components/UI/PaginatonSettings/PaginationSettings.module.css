@@ -1,0 +1,76 @@
+.paginationSettings {
+    width: 570px;
+    margin-left: 5px;
+    padding-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.paginationButton {
+    height: 40px;
+    margin-right: 2px;
+
+    padding: 7px 10px;
+
+    border: 2px solid #3AAFA9;
+    border-radius: 4px;
+    background-color: transparent;
+
+    font-size: 15px;
+    color: #2B7A78;
+
+    cursor: pointer;
+}
+
+.paginationButton:hover {
+    border: 2px solid #3AAFA9;
+    background-color: #3AAFA9;
+    color: black;   
+}
+
+.selectInput {
+    width: 150px;
+    display: flex;
+    align-items: center;
+    margin-right: 2px;
+}
+
+.selectInput label {
+    margin-right: 10px;
+}
+
+@media only screen and (min-width: 500px) {
+    .paginationSettings {
+        font-size: 12px;
+    }
+    
+    .paginationButton {
+        font-size: 12px;
+    }
+    
+    .selectInput {
+        font-size: 12px
+    }
+    
+    .selectInput label {
+        font-size: 12px;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .paginationSettings {
+        font-size: 15px;
+    }
+    
+    .paginationButton {
+        font-size: 15px;
+    }
+    
+    .selectInput {
+        font-size: 15px
+    }
+    
+    .selectInput label {
+        font-size: 15px;
+    }
+}
