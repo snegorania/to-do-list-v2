@@ -1,0 +1,1 @@
+DELETE FROM list WHERE id = 7;

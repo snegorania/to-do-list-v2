@@ -1,5 +1,5 @@
 // connect to db
-const db = require('../db');
+const db = require('../db/db');
 
 class UserController {
     // add user from request to db

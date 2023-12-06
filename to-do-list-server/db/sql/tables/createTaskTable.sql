@@ -1,6 +1,7 @@
 CREATE TABLE task(
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
+    is_done BOOLEAN,
     description TEXT,
     important BOOLEAN,
     my_day BOOLEAN,
