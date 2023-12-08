@@ -3,12 +3,14 @@ import { configureStore } from '@reduxjs/toolkit'
 import listsReducer from './listsSlice';
 import dataReducer from './dataSlice';
 import singleListReducer from './singleListSlice';
+import tagsReducer from './tagsSlice';
 
 // configures store end export it
 export default configureStore({
     reducer: {
         lists: listsReducer,
         data: dataReducer,
-        singleList: singleListReducer
+        singleList: singleListReducer,
+        tags: tagsReducer
     }
 })

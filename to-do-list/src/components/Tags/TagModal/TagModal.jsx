@@ -5,36 +5,25 @@ import Input from "../../UI/Input/Input";
 import PrimaryButton from "../../UI/PrimaryButton/PrimaryButton";
 import TagWithLogic from "../TagWithLogic/TagWithLogic";
 import { nanoid } from "@reduxjs/toolkit";
+import { useSelector } from 'react-redux';
+import { selectAllTags } from "../../../store/tagsSlice";
+import { useDispatch } from "react-redux";
+import { addTag, editTag, deleteTag } from "../../../store/tagsSlice";
 
-const DUMMY_TAGS = [
-  {
-    id: "tag1",
-    title: "reading",
-  },
-  {
-    id: "tag2",
-    title: "writing",
-  },
-  {
-    id: "tag3",
-    title: "coding",
-  },
-  {
-    id: "tag4",
-    title: "doc",
-  },
-];
 
 const TagModal = ({ onClose }) => {
-  const [tags, setTags] = useState(DUMMY_TAGS);
+  const tags= useSelector(selectAllTags);
+  const dispatch = useDispatch();
   const [tag, setTag] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (tag.trim().length === 0) {
       return;
-    } else {
-      setTags((prev) => [...prev, { id: nanoid(), title: tag }]);
+    }
+    const index = tags.findIndex((el) => el.title === tag);
+    if (index === -1) {
+      dispatch(addTag({ id: nanoid(), title: tag.trim() }));
       setTag("");
     }
   };
@@ -44,18 +33,13 @@ const TagModal = ({ onClose }) => {
   };
 
   const handleEdit = (id, title) => {
-    setTags((prev) => {
-      const newTags = [...prev];
-      const index = newTags.findIndex((el) => el.id === id);
-      newTags[index] = { ...prev[index], title: title };
-      return newTags;
-    });
+    dispatch(editTag({id, title}));
   };
 
-  const handleDelete = id => {
-    setTags(prev => prev.filter(el => el.id !== id));
-  }
- 
+  const handleDelete = (id) => {
+    dispatch(deleteTag(id));
+  };
+
   return (
     <Modal title="Tags" className={styles.window} onClose={onClose}>
       <div className={styles.addTagToTask}>
@@ -71,15 +55,17 @@ const TagModal = ({ onClose }) => {
         </form>
         <hr></hr>
         <ul className={styles.tagsToEnter}>
-          {tags.map((el) => (
-            <TagWithLogic
-              id={el.id}
-              key={el.id}
-              title={el.title}
-              onEdit={handleEdit}
-              onDelete={handleDelete.bind(null, el.id)}
-            />
-          ))}
+          {tags
+            .filter((el) => el.title.includes(tag))
+            .map((el) => (
+              <TagWithLogic
+                id={el.id}
+                key={el.id}
+                title={el.title}
+                onEdit={handleEdit}
+                onDelete={handleDelete.bind(null, el.id)}
+              />
+            ))}
         </ul>
       </div>
     </Modal>

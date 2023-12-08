@@ -5,29 +5,10 @@ import Input from "../../UI/Input/Input";
 import PrimaryButton from "../../UI/PrimaryButton/PrimaryButton";
 import styles from "./AddTagsToTask.module.css";
 import { nanoid } from '@reduxjs/toolkit';
-
-const DUMMY_EXISTING_TAGS = [
-  {
-    id: "tag1",
-    title: "reacding",
-  },
-  {
-    id: "tag2",
-    title: "writing",
-  },
-  {
-    id: "tag3",
-    title: "editing",
-  },
-  {
-    id: "tag4",
-    title: "geting",
-  },
-  {
-    id: "tag5",
-    title: "auch",
-  },
-];
+import { useSelector } from 'react-redux';
+import { selectAllTags } from "../../../store/tagsSlice";
+import { useDispatch } from "react-redux";
+import { addTag } from "../../../store/tagsSlice";
 
 const DUMMY_TAGS_IN_TASK = [
   {
@@ -41,7 +22,8 @@ const DUMMY_TAGS_IN_TASK = [
 ];
 
 const AddTagsToTask = () => {
-  const [allTags, setAllTags] = useState(DUMMY_EXISTING_TAGS);
+  const allTags = useSelector(selectAllTags);
+  const dispatch = useDispatch();
   const [taskTags, setTaskTags] = useState(DUMMY_TAGS_IN_TASK);
   const [title, setTitle] = useState("");
 
@@ -65,7 +47,7 @@ const AddTagsToTask = () => {
         handleAddToTask(allTags[index].id);
     } else {
         const id = nanoid();
-        setAllTags(prev => [...prev, {id, title}]);
+        dispatch(addTag({id, title}));
         setTaskTags(prev => [...prev, {id, title}]);
     }
 
