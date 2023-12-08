@@ -13,6 +13,12 @@
     padding-left: 20px;
 }
 
+.controls {
+    width: 15%;
+    display: flex;
+    justify-content: space-between;
+}
+
 @media only screen and (min-width: 768px) {
     .heading {
         font-size: 25px;

@@ -1,0 +1,19 @@
+.tagV2 {
+  display: flex;
+  align-items: center;
+  padding: 7px 20px;
+  background-color: yellow;
+  border-radius: 20px;
+  margin-bottom: 5px;
+  margin-right: 5px;
+}
+
+.tagLabel {
+  margin: 0 10px 0 0;
+  font-size: 100%;
+  color: black;
+}
+
+.tagIcon {
+  color: black;
+}

@@ -11,7 +11,6 @@ const DeleteTaskPage = () => {
     const {t} = useTranslation();
     const navigate = useNavigate();
     const id = useSelector(selectDeleteTaskId);
-    console.log(id);
     const dispatch = useDispatch();
     const handleDelete = () => {
         dispatch(deleteTaskToData(id));

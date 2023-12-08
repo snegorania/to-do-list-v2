@@ -8,7 +8,7 @@ const RootLayout = () => {
     <>
       <Header />
       <main className={styles.main}>
-        <Outlet/>
+        <Outlet />
       </main>
     </>
   );

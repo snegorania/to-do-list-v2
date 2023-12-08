@@ -1,0 +1,24 @@
+.window {
+    width: 700px
+}
+
+.addTagToTask {
+    padding: 20px;
+    width: 650px;
+}
+
+.tagsToEnter {
+  display: flex;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.tagTaskForm {
+  display: flex;
+  padding-bottom: 10px;
+}
+
+.tagInput {
+  width: 600px;
+  margin-right: 10px;
+}

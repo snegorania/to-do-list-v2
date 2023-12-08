@@ -1,41 +1,23 @@
-.main {
-  display: flex;
-}
-
-.tagV1 {
-  margin: 5px 2px 0 0;
-  padding: 7px 20px;
-  background-color: yellow;
-  border-radius: 20px;
-  font-size: 100%;
-  color: black;
-}
-
 .tagV2 {
   display: flex;
   align-items: center;
   padding: 7px 20px;
   background-color: yellow;
   border-radius: 20px;
+  margin-top: 5px;
+  margin-right: 5px;
 }
 
 .tagLabel {
   margin: 0 10px 0 0;
   font-size: 100%;
   color: black;
+  cursor: pointer;
 }
 
 .tagIcon {
   color: black;
-}
-
-.tagForm {
-  display: flex;
-}
-
-.tagInput {
-  width: 160px;
-  margin-right: 10px;
+  cursor: pointer;
 }
 
 .editTagInput {
@@ -54,19 +36,4 @@
 
 .tagEditForm {
   display: flex;
-}
-
-.tagsToEnter {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.tagTaskForm {
-  display: flex;
-  padding-bottom: 10px;
-}
-
-.addTagToTask {
-  padding: 20px;
-  width: 300px;
 }

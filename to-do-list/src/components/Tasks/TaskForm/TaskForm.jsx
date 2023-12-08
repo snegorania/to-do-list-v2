@@ -12,10 +12,11 @@ import { isNotEmpty, notRequired } from "../../../utils/validations";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import useGetTimePeriod from "../../../hooks/useGetTimePeriod";
-import { useTranslation } from 'react-i18next'
+import { useTranslation } from "react-i18next";
+import AddTagsToTask from "../../Tags/AddTagsToTask/AddTagsToTask";
 
 function TaskForm({ method, defultValue }) {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const listId = useParams().listId;
   const navigate = useNavigate();
   const [title, titleFunc] = useInput(isNotEmpty);
@@ -128,6 +129,7 @@ function TaskForm({ method, defultValue }) {
               />
             </span>
           </label>
+          <AddTagsToTask/>
         </div>
         <div className={styles.actions}>
           <SecondaryButton onClick={handleClose} type="button">
