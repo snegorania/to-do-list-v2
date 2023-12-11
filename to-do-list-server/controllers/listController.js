@@ -2,8 +2,13 @@ const db = require("../db/db");
 
 class ListController {
   async createList(req, res) {
-    const { title, description, important, myDay, isTasks, isUsers, userId } =
+    const { title, description, userId } =
       req.body;
+
+    if (!title) {
+      throw new Error('Title is required');
+    }
+
     const newList = await db.query(
       `INSERT INTO list(
                     title,
@@ -15,29 +20,32 @@ class ListController {
                     list_user_id
                 ) 
                 VALUES 
-                ($1, $2, $3, $4, $5, $6, $7) RETURNING *;`,
-      [title, description, important, myDay, isTasks, isUsers, userId]
+                ($1, $2, FALSE, FALSE, FALSE, TRUE, $3) RETURNING *;`,
+      [title, description, userId]
     );
-    res.json(newList.rows[0]);
+    return res.status(200).json(newList.rows[0]);
   }
 
   async updateList(req, res) {
-    const { title, description, important, myDay, isTasks, isUsers, userId } =
+    const { title, description, userId } =
       req.body;
     const id = Number(req.params.id);
+    if (!title) {
+      throw new Error('Title is required');
+    }
     const updatedList = await db.query(
       `UPDATE list
       SET title = $1, 
           description = $2, 
-          importand = $3,
-          my_day = $4,
-          tasks = $5,
-          is_users = $6,
-          list_user_id = $7
-      WHERE id = $8 RETURNING *;`,
-      [title, description, important, myDay, isTasks, isUsers, userId, id]
+          list_user_id = $3
+      WHERE id = $4 RETURNING *;`,
+      [title, description, userId, id]
     );
-    res.json(updatedList.rows[0]);
+
+    if (updatedList.rows.length === 0) {
+      throw new Error('Incorrect id');
+    }
+    return res.status(200).json(updatedList.rows[0]);
   }
 
   async deleteList(req, res) {
@@ -46,19 +54,24 @@ class ListController {
         `DELETE FROM list WHERE id = $1 RETURNING id`,
       [id]
     );
-    res.json(deletedList.rows[0]);
+    if (deletedList.rows.length === 0) {
+      throw new Error('Incorrect id');
+    }
+    return res.status(200).json(deletedList.rows[0]);
   }
 
   async getOneList(req, res) {
     const id = req.params.id;
     const list = await db.query(`SELECT * FROM list WHERE id = $1`, [id]);
-    res.json(list.rows[0]);
+    if (list.rows.length === 0) {
+      throw new Error('Incorrect id');
+    }
+    return res.status(200).json(list.rows[0]);
   }
 
   async getLists(req, res) {
-    const id = req.params.id;
     const list = await db.query(`SELECT * FROM list`);
-    res.json(list.rows);
+    return res.status(200).json(list.rows);
   }
 }
 

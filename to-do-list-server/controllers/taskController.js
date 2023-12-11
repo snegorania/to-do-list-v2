@@ -15,6 +15,10 @@ class taskController {
       isDone
     } = req.body;
 
+    if (!title) {
+      throw new Error('Title is required');
+    }
+
     const newTask = await db.query(
       `INSERT INTO task(
             title,
@@ -41,7 +45,7 @@ class taskController {
         isDone
       ]
     );
-    res.json(newTask.rows[0]);
+    return res.status(200).json(newTask.rows[0]);
   }
 
   async updateTask(req, res) {
@@ -57,6 +61,11 @@ class taskController {
       isDone
     } = req.body;
     const id = Number(req.params.id);
+
+    if (!title) {
+      throw new Error('Title is required');
+    }
+
     const updatedTask = await db.query(
       `UPDATE task
           SET title = $1, 
@@ -82,7 +91,10 @@ class taskController {
         id,
       ]
     );
-    res.json(updatedTask.rows[0]);
+    if (updatedTask.rows.length === 0) {
+      throw new Error('Incorrect id');
+    }
+    return res.status(200).json(updatedTask.rows[0]);
   }
 
   async deleteTask(req, res) {
@@ -91,13 +103,21 @@ class taskController {
       `DELETE FROM task WHERE id = $1 RETURNING id`,
       [id]
     );
-    res.json(deletedTask.rows[0]);
+    if (deletedTask.rows.length === 0) {
+      throw new Error('Incorrect id');
+    }
+    return res.status(200).json(deletedTask.rows[0]);
   }
 
   async getOneTask(req, res) {
     const id = req.params.id;
     const task = await db.query(`SELECT * FROM task WHERE id = $1`, [id]);
-    res.json(task.rows[0]);
+
+    if (task.rows.length === 0) {
+      throw new Error('Incorrect id');
+    }
+    
+    return res.status(200).json(task.rows[0]);
   }
 }
 

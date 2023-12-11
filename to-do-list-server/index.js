@@ -4,6 +4,8 @@ const userRouter = require('./routers/userRouts');
 const listRouter = require('./routers/listRouts');
 const taskRouter = require('./routers/taskRouts');
 const tagRouter = require('./routers/tagRouts');
+const fullListRouter = require('./routers/fullListRouts');
+const errorHandler = require('./midleware/ErrorHandler');
 const cors = require("cors");
 
 // ask for port
@@ -19,6 +21,9 @@ app.use(express.json());
 app.use('/api', listRouter);
 app.use('/api', taskRouter);
 app.use('/api', tagRouter);
+app.use('/api', fullListRouter);
+
+app.use(errorHandler);
 
 // listen server
 app.listen(PORT, () => console.log(`server started on port: ${PORT}`));

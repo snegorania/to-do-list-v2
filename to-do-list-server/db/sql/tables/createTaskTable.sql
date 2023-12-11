@@ -9,5 +9,6 @@ CREATE TABLE task(
     end_time VARCHAR(100),
     deadline VARCHAR(100),
     list_id INTEGER,
+    task_user_id INTEGER,
     FOREIGN KEY (list_Id) REFERENCES list(id)
 );

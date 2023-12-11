@@ -1,0 +1,1 @@
+ALTER TABLE list RENAME COLUMN importand TO important;
