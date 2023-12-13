@@ -61,26 +61,38 @@ export const isNotPeriodValid = (
     endTime
   );
 
+  let message = null;
+
   let isNotValidStartDate =
     !isNotEmpty(startDate) && startDateBlur && isOneNotEmptyInp;
+  
+  if (isNotValidStartDate) message = 'Add start date or clean all fields';
 
   let isNotValidStartTime =
     !isNotEmpty(startTime) && startTimeBlur && isOneNotEmptyInp;
+  
+  if (isNotValidStartTime) message = 'Add start time or clean all fields';
 
   let isNotValidEndDate =
     !isNotEmpty(endDate) && endDateBlur && isOneNotEmptyInp;
+  
+  if (isNotValidEndDate) message = 'Add end date or clean all fields';
 
   let isNotValidEndTime =
     !isNotEmpty(endTime) && endTimeBlur && isOneNotEmptyInp;
+  
+  if (isNotValidEndTime) message = 'Add end date or clean all fields';
 
   if (isNotEmpty(startDate) && isNotEmpty(startTime)) {
     isNotValidStartDate = !isDateTimeValid(startDate, startTime);
     isNotValidStartTime = !isDateTimeValid(startDate, startTime);
+    if (isNotValidStartDate || isNotValidStartTime) message = 'Start time is not valid timestamp';
   }
 
   if (isNotEmpty(endDate) && isNotEmpty(endTime)) {
     isNotValidEndDate = !isDateTimeValid(endDate, endTime);
     isNotValidEndTime = !isDateTimeValid(endDate, endTime);
+    if (isNotValidEndDate || isNotValidEndTime) message = 'End time is not valid timestamp';
   }
 
   return {
@@ -88,5 +100,6 @@ export const isNotPeriodValid = (
     startTime: isNotValidStartTime,
     endDate: isNotValidEndDate,
     endTime: isNotValidEndTime,
+    message: message 
   };
 };

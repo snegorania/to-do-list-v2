@@ -5,7 +5,7 @@ import Modal from "../../UI/Modal/Modal";
 import { useSelector } from "react-redux";
 import { selectTaskById } from "../../../store/singleListSlice";
 import { useNavigate } from "react-router-dom";
-import { setDeleteTaskId } from "../../../store/singleListSlice";
+import { setChosenTaskId } from "../../../store/singleListSlice";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -20,8 +20,13 @@ const TaskInfo = ({ id }) => {
   const handleClose = () => { navigate('..') };
 
   const handleDelete = () => {
-    dispatch(setDeleteTaskId(id));
+    dispatch(setChosenTaskId(id));
     navigate(`/lists/${params.listId}/tasks/delete-task`);
+  }
+
+  const handleEdit = () => {
+    dispatch(setChosenTaskId(id));
+    navigate(`/lists/${params.listId}/tasks/edit-task`);
   }
 
   return (
@@ -40,9 +45,7 @@ const TaskInfo = ({ id }) => {
             <h3 className={styles.label}>{t('deadline')}</h3>
             <p className={styles.deadline}>
               {task.deadline
-                ? `${new Date(task.deadline).getFullYear()}-${
-                    new Date(task.deadline).getMonth() + 1
-                  }-${new Date(task.deadline).getDate()}`
+                ? new Date(task.deadline).toLocaleDateString()
                 : "Not Entered"}
             </p>
           </div>
@@ -93,7 +96,7 @@ const TaskInfo = ({ id }) => {
         </div>
       </div>
       <div className={styles.actions}>
-          <SecondaryButton type="button">{t("edit")}</SecondaryButton>
+          <SecondaryButton type="button" onClick={handleEdit}>{t("edit")}</SecondaryButton>
           <SecondaryButton type="button" onClick={handleDelete}>{t("delete")}</SecondaryButton>
       </div>
     </Modal>

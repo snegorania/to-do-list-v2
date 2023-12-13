@@ -16,3 +16,5 @@ FROM
     task LEFT JOIN tag_list_table ON task.id = tag_list_table.task_id 
     LEFT JOIN tag ON tag_list_table.tag_id = tag.id 
 WHERE list_id = 4;
+
+SELECT tag.id, tag.title FROM tag_list_table INNER JOIN tag ON tag.id = tag_list_table.tag_id  WHERE tag_list_table.task_id = 1;

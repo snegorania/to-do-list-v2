@@ -4,17 +4,17 @@ import styles from "./TagModal.module.css";
 import Input from "../../UI/Input/Input";
 import PrimaryButton from "../../UI/PrimaryButton/PrimaryButton";
 import TagWithLogic from "../TagWithLogic/TagWithLogic";
-import { nanoid } from "@reduxjs/toolkit";
 import { useSelector } from 'react-redux';
 import { selectAllTags } from "../../../store/tagsSlice";
 import { useDispatch } from "react-redux";
-import { addTag, editTag, deleteTag } from "../../../store/tagsSlice";
+import { postTag, putTag, deleteTags  } from "../../../store/tagsSlice";
 
 
 const TagModal = ({ onClose }) => {
-  const tags= useSelector(selectAllTags);
+
   const dispatch = useDispatch();
   const [tag, setTag] = useState("");
+  const tags= useSelector(selectAllTags);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,7 +23,7 @@ const TagModal = ({ onClose }) => {
     }
     const index = tags.findIndex((el) => el.title === tag);
     if (index === -1) {
-      dispatch(addTag({ id: nanoid(), title: tag.trim() }));
+      dispatch(postTag({ title: tag.trim(), userId: 1 }));
       setTag("");
     }
   };
@@ -33,11 +33,11 @@ const TagModal = ({ onClose }) => {
   };
 
   const handleEdit = (id, title) => {
-    dispatch(editTag({id, title}));
+    dispatch(putTag({id, title, userId: 1}));
   };
 
   const handleDelete = (id) => {
-    dispatch(deleteTag(id));
+    dispatch(deleteTags(id));
   };
 
   return (

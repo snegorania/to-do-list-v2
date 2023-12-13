@@ -69,13 +69,17 @@ function useGetTimePeriod(isRequired) {
     setStartTime("");
     setEndDate("");
     setEndTime("");
+    setStartDateBlur(false);
+    setStartTime(false);
+    setEndDate(false);
+    setEndTime(false);
   };
 
   const blurAll = () => {
     setStartDateBlur(true);
-    setStartTime(true);
-    setEndDate(true);
-    setEndTime(true);
+    setStartTimeBlur(true);
+    setEndDateBlur(true);
+    setEndTimeBlur(true);
   };
 
   return {
@@ -116,6 +120,7 @@ function useGetTimePeriod(isRequired) {
     reset,
     blurAll,
     isValid,
+    message: isNotValid.message
   };
 }
 

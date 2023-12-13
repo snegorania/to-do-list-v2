@@ -2,7 +2,7 @@
 INSERT INTO list(
     title,
     description,
-    importand,
+    important,
     my_day,
     tasks,
     is_users,

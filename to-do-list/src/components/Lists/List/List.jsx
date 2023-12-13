@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from "react";
+import React, { useState, useRef, useMemo, useEffect } from "react";
 import styles from "./List.module.css";
 import { useSelector } from "react-redux";
 import { selectListFromData } from "../../../store/dataSlice";
@@ -11,7 +11,7 @@ import { AiOutlineStar } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import {
   selectSingleList,
-  setSingleList,
+  getList,
 } from "../../../store/singleListSlice";
 import { Outlet, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -24,11 +24,9 @@ const List = ({ id }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const dataList = useSelector((state) => selectListFromData(state, id));
-
-  const listToSet = useMemo(() => dataList, [id]);
-
-  dispatch(setSingleList(listToSet));
+  useEffect(() => {
+    dispatch(getList(id));
+  }, [dispatch, getList, id]);
 
   const list = useSelector(selectSingleList);
 
@@ -75,7 +73,7 @@ const List = ({ id }) => {
             </>
           )}
         </div>
-        {list.isUsers && (
+        {list.isUsers && list.description && (
           <CSSTransition
             in={isOpen}
             nodeRef={arrowRef}
@@ -97,7 +95,7 @@ const List = ({ id }) => {
           </CSSTransition>
         )}
       </div>
-      {list.isUsers && (
+      {list.isUsers && list.description && (
         <>
           <hr className={styles.line} />
           <CSSTransition

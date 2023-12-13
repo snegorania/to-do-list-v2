@@ -3,28 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const tagsSlice = createSlice({
   name: "tags",
   initialState: {
-    tags: [
-      {
-        id: "tag1",
-        title: "reacding",
-      },
-      {
-        id: "tag2",
-        title: "writing",
-      },
-      {
-        id: "tag3",
-        title: "editing",
-      },
-      {
-        id: "tag4",
-        title: "geting",
-      },
-      {
-        id: "tag5",
-        title: "auch",
-      },
-    ],
+    tags: [],
   },
   reducers: {
     addTag(state, action) {
@@ -43,11 +22,107 @@ const tagsSlice = createSlice({
     deleteTag(state, action) {
       state.tags = state.tags.filter((el) => el.id !== action.payload);
     },
+
+    setTags(state, action) {
+      state.tags = action.payload;
+    }
   },
 });
 
 
-export const {addTag, deleteTag, editTag} = tagsSlice.actions;
+export const {addTag, deleteTag, editTag, setTags} = tagsSlice.actions;
 export const selectAllTags = (state) => state.tags.tags;
 
 export default tagsSlice.reducer;
+
+export const getTags = () => {
+  return async (dispatch) => {
+    const requestTags = async() => {
+      const response = await fetch('http://localhost:8080/api/tag');
+      if (!response.ok) {
+        throw new Error('Something went wrong');
+      }
+      const data = await response.json();
+      return data;
+    }
+    try {
+      const data = await requestTags();
+      dispatch(setTags(data));
+    } catch(error) {
+      console.log(error);
+    }
+  }
+}
+
+export const postTag = (tag) => {
+  return async (dispatch) => {
+    const requestTags = async() => {
+      const response = await fetch('http://localhost:8080/api/tag', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(tag)
+      });
+      if (!response.ok) {
+        throw new Error('Something went wrong');
+      }
+      const data = await response.json();
+      return data;
+    }
+    try {
+      const data = await requestTags();
+      dispatch(addTag(data));
+    } catch(error) {
+      console.log(error);
+    }
+  }
+}
+
+export const putTag = (tag) => {
+  return async (dispatch) => {
+    const requestTags = async() => {
+      const response = await fetch(`http://localhost:8080/api/tag/${tag.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(tag)
+      });
+      if (!response.ok) {
+        throw new Error('Something went wrong');
+      }
+      const data = await response.json();
+      return data
+    }
+
+    try {
+      const data = await requestTags();
+      dispatch(editTag(data));
+    } catch(error) {
+      console.log(error);
+    }
+  }
+}
+
+export const deleteTags = (id) => {
+  return async (dispatch) => {
+    const requestTags = async() => {
+      const response = await fetch(`http://localhost:8080/api/tag/${id}`, {
+        method: 'DELETE'
+      });
+      if (!response.ok) {
+        throw new Error('Something went wrong');
+      }
+      const data = await response.json();
+      return data
+    }
+
+    try {
+      const data = await requestTags();
+      dispatch(deleteTag(data));
+    } catch(error) {
+      console.log(error);
+    }
+  }
+}

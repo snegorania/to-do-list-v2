@@ -13,6 +13,7 @@ import TaskPage from "./pages/TaskPage";
 import DeleteListPage from "./pages/DeleteListPage";
 import DeleteTaskPage from "./pages/DeleteTaskPage";
 import AllListsPage from "./pages/AllListsPage";
+import EditTaskPage from "./pages/EditTaskPage";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
               {
                 path: "delete-task",
                 element: <DeleteTaskPage />,
+              },
+              {
+                path: "edit-task",
+                element: <EditTaskPage />,
               },
               {
                 path: ":taskId",

@@ -12,7 +12,8 @@ const singleListSlice = createSlice({
     isTasks: false,
     isUsers: false,
     tasks: [],
-    deleteId: "",
+    chosenId: "",
+    userId: "",
     pagination: {
       currentPage: 1,
       allPages: 1,
@@ -53,13 +54,14 @@ const singleListSlice = createSlice({
       state.isTasks = action.payload.isTasks;
       state.isUsers = action.payload.isUsers;
       state.tasks = action.payload.tasks;
+      state.userId = action.payload.userId;
       state.pagination.allPages = pageNumberCount(
         action.payload.tasks.length,
         state.pagination.rows
       );
     },
-    setDeleteTaskId(state, action) {
-      state.deleteId = action.payload;
+    setChosenTaskId(state, action) {
+      state.chosenId = action.payload;
     },
     setPaginationRows(state, action) {
       state.pagination.rows = action.payload;
@@ -118,14 +120,14 @@ export const selectTaskById = (state, id) => {
   return state.singleList.tasks.find((task) => id === task.id);
 };
 
-export const selectDeleteTaskId = (state) => state.singleList.deleteId;
+export const selectChosenTaskId = (state) => state.singleList.chosenId;
 
 export const {
   addTask,
   deleteTask,
   updateTask,
   setSingleList,
-  setDeleteTaskId,
+  setChosenTaskId,
   setPaginationPage,
   setPaginationRows,
   resetPagination,
@@ -134,3 +136,22 @@ export const {
 } = singleListSlice.actions;
 
 export default singleListSlice.reducer;
+
+export const getList = (id) => {
+  return async(dispatch) => {
+    const request = async() => {
+      const response = await fetch(`http://localhost:8080/api/full-list/${id}`);
+      if(!response.ok) {
+        throw new Error('Something went wrong');
+      }
+      const data = await response.json();
+      return data;
+    }
+    try {
+      const data = await request();
+      dispatch(setSingleList(data));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}

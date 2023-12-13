@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styles from "./TasksPage.module.css";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { selectPagination, selectSingleList } from "../store/singleListSlice";
 import TaskList from "../components/Tasks/TaskList";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Pagination from "../components/UI/Pagination/Pagination";
 import { pagination } from "../utils/pagination";
@@ -11,13 +11,15 @@ import PaginationSettings from "../components/UI/PaginatonSettings/PaginationSet
 import { getPaginationBorders } from "../utils/pagination";
 import { addTaskOrder, addNewListToOrder, orderTasks } from "../utils/drag-n-drop";
 import { useResize } from "../hooks/useResize";
+import { getList } from "../store/singleListSlice";
 
 const TasksPage = () => {
   const { t } = useTranslation();
+
   const list = useSelector(selectSingleList);
   const paginationObj = useSelector(selectPagination);
   const navigate = useNavigate();
-  const [tasks, setTasks] = useState(list.tasks);
+  const [tasks, setTasks] = useState([]);
   const size = useResize(500);
 
   useEffect(() => {
@@ -32,11 +34,12 @@ const TasksPage = () => {
       arrayIdOrder = addNewListToOrder(list.id, list.tasks, arrayIdOrder);
     }
 
-    let orderedTasks;
+    let orderedTasks = [];
 
     if (arrayIdOrder.length && list.tasks.length) {
       orderedTasks = orderTasks(list.id, arrayIdOrder, list.tasks);
     }
+
     setTasks(orderedTasks);
   }, [list]);
 
@@ -47,6 +50,7 @@ const TasksPage = () => {
       paginationObj.currentPage,
       paginationObj.extraRows
     );
+
     let counter = 0;
     const tasksOrder = JSON.parse(localStorage.getItem("tasksOrder"));
     const listObjIndex = tasksOrder.findIndex((el) => el.list === list.id);

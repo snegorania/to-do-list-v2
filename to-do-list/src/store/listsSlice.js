@@ -32,6 +32,7 @@ const listsSlice = createSlice({
     },
   },
 });
+ 
 
 export const selectAllLists = (state) => state.lists.lists;
 export const selectListById = (state, id) => state.lists.lists.find(list => id === list.id);
@@ -41,3 +42,100 @@ export const selectChosenList = (state) => state.lists.lists.find(list => state.
 export const { addList, deleteList, updateList, setLists, setChosenId } = listsSlice.actions;
 
 export default listsSlice.reducer;
+
+export const getLists = () => {
+  return async (dispatch) => {
+
+    const fetchLists = async () => {
+      const response = await fetch('http://localhost:8080/api/list');
+      if (!response.ok) {
+        throw new Error('Something went wrong');
+      }
+      const data = response.json();
+      return data;
+    }
+
+    try{
+      const data = await fetchLists();
+      dispatch(setLists(data));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
+export const postList = (list) => {
+  return async (dispatch) => {
+    const fetchLists = async () => {
+      const response = await fetch('http://localhost:8080/api/list', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(list)
+      });
+
+      if (!response.ok) {
+        throw new Error('Something went wrong');
+      }
+      const data = await response.json();
+      return data;
+    }
+
+    try {
+      const data = await fetchLists();
+      dispatch(addList(data));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
+export const putList = (list) => {
+  return async (dispatch) => {
+    const fetchLists = async () => {
+      const response = await fetch(`http://localhost:8080/api/list/${list.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(list)
+      });
+
+      if (!response.ok) {
+        throw new Error('Something went wrong');
+      }
+
+      const data = response.json();
+      return data;
+    }
+
+    try{
+      const data = await fetchLists();
+      dispatch(updateList(data));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
+export const deleteListRequest = (id) => {
+  return async (dispatch) => {
+    const fetchLists = async () => {
+      const response = await fetch(`http://localhost:8080/api/list/${id}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Something went wrong');
+      }
+      const responseId = await response.json();
+      return responseId;
+    }
+    try {
+      const deleteId = await fetchLists();
+      dispatch(deleteList(deleteId));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}

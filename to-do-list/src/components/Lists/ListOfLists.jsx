@@ -5,17 +5,18 @@ import styles from "./ListOfLists.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { selectListsFromData } from "../../store/dataSlice";
 import { selectAllLists, setLists } from "../../store/listsSlice";
+import { getTags } from "../../store/tagsSlice";
+import { getLists } from "../../store/listsSlice";
 
 
 const ListOfLists = () => {
-  
+
   const dispatch = useDispatch();
 
-  const dataLists = useSelector(selectListsFromData);
-
-  const listsToSet = useMemo(() => dataLists, [dataLists]);
-
-  dispatch(setLists(listsToSet));
+  useEffect(() => {
+    dispatch(getLists());
+    dispatch(getTags());
+  }, [getLists, dispatch, getTags]);
 
   const lists = useSelector(selectAllLists);
 

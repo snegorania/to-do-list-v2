@@ -19,7 +19,7 @@ router.get(
       allTasksWithTags = await db.query(
         `SELECT 
           task.id as task_id,
-          task.title as task_description,
+          task.title as task_title,
           task.is_done,
           task.description,
           task.important,
@@ -38,7 +38,7 @@ router.get(
       allTasksWithTags = await db.query(
         `SELECT 
           task.id as task_id,
-          task.title as task_description,
+          task.title as task_title,
           task.is_done,
           task.description,
           task.important,
@@ -57,7 +57,7 @@ router.get(
       allTasksWithTags = await db.query(
         `SELECT 
           task.id as task_id,
-          task.title as task_description,
+          task.title as task_title,
           task.is_done,
           task.description,
           task.important,
@@ -104,11 +104,15 @@ router.get(
     }
 
     const fullList = {
-      ...list.rows[0],
+      id: list.rows[0].id,
+      title: list.rows[0].title,
+      description: list.rows[0].description,
+      isImportant: list.rows[0].important,
       isUsers: list.rows[0].is_users,
       isMyDay: list.rows[0].my_day,
       isTasks: list.rows[0].tasks,
       tasks: tasks,
+      userId: list.rows[0].list_user_id
     };
 
     return res.status(200).json(fullList);

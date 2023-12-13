@@ -4,12 +4,9 @@ import Modal from "../../UI/Modal/Modal";
 import Input from "../../UI/Input/Input";
 import Textarea from "../../UI/Textarea/Textarea";
 import useInput from "../../../hooks/useInput";
-import { useNavigate, useParams } from "react-router-dom";
-import { nanoid } from "@reduxjs/toolkit";
+import { useNavigate} from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import { addList } from "../../../store/listsSlice";
-import { addListToData, updateListToData } from "../../../store/dataSlice";
-import { updateList } from "../../../store/listsSlice";
+import { postList, putList } from "../../../store/listsSlice";
 import { isNotEmpty, notRequired } from "../../../utils/validations";
 import PrimaryButton from '../../UI/PrimaryButton/PrimaryButton'
 import SecondaryButton from "../../UI/SecondaryButton/SecondaryButton";
@@ -19,20 +16,21 @@ function ListForm ({listForEdit, method}) {
   const {t} = useTranslation()
 
   const [title, titleFunc] = useInput(isNotEmpty);
-
   const [description, descriptionFunc] = useInput(notRequired);
 
   const formTitle = method === 'post' ? t("addListForm") : t("editListForm");
 
+  const {setValue: setTitle} = titleFunc;
+  const {setValue: setDescription} = descriptionFunc;
+
   useEffect(() => {
     if (listForEdit) {
-      titleFunc.setValue(listForEdit.title || '');
-      descriptionFunc.setValue(listForEdit.description || '');
+      setTitle(listForEdit.title || '');
+      setDescription(listForEdit.description || '');
     }
-  }, [listForEdit]);
+  }, [listForEdit, setTitle, setDescription]);
 
   const navigate = useNavigate();
-  const id = useParams().listId;
   const dispatch = useDispatch();
 
   const handleClose = () => {
@@ -44,20 +42,13 @@ function ListForm ({listForEdit, method}) {
     if (title.isValid && description.isValid) {
       if (method === 'post') {
         const list = {
-          id: nanoid(),
           title: title.value,
           description: description.value,
-          isImportant: false,
-          isMyDay: false,
-          isTasks: false,
-          isUsers: true
+          userId: 1,
         }
-  
-        dispatch(addList(list));
-        dispatch(addListToData(list));
+        dispatch(postList(list));
       } else {
-        dispatch(updateList({id: listForEdit.id, title: title.value, description: description.value}));
-        dispatch(updateListToData({id: listForEdit.id, title: title.value, description: description.value}));
+        dispatch(putList({...listForEdit, title: title.value, description: description.value}));
       }
     }
 

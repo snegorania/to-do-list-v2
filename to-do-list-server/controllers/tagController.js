@@ -1,5 +1,17 @@
 const db = require("../db/db");
 
+const converter = (data) => {
+  const arr = [];
+  for (let i = 0; i < data.rows.length; i++) {
+    arr.push({
+      id: data.rows[i].id,
+      title: data.rows[i].title,
+      userId: data.rows[i].tag_user_id
+    })
+  }
+  return arr;
+}
+
 class tagController {
   async createTag(req, res) {
     const { title, userId } = req.body;
@@ -15,8 +27,8 @@ class tagController {
         ) VALUES ($1, $2) RETURNING *;`,
       [title, userId]
     );
-
-    return res.status(200).json(newTag.rows[0]);
+    const convertedData = converter(newTag);
+    return res.status(200).json(convertedData[0]);
   }
 
   async updateTag(req, res) {
@@ -38,7 +50,8 @@ class tagController {
       throw new Error('Incorrect id');
     }
 
-    return res.status(200).json(updatedTag.rows[0]);
+    const convertedData = converter(updatedTag);
+    return res.status(200).json(convertedData[0]);
   }
 
   async deleteTag(req, res) {
@@ -52,7 +65,7 @@ class tagController {
       throw new Error('Incorrect id');
     }
 
-    return res.status(200).json(deletedTag.rows[0]);
+    return res.status(200).json(deletedTag.rows[0].id);
   }
 
   async getOneTag(req, res) {
@@ -66,16 +79,18 @@ class tagController {
       throw new Error('Incorrect id');
     }
 
-    return res.status(200).json(tag.rows[0]);
+    const convertedData = converter(tag);
+    return res.status(200).json(convertedData[0]);
   }
 
   async getAllTags(req, res) {
     
-    const tag = await db.query(
+    const tags = await db.query(
         `SELECT * FROM tag;`
     );
 
-    return res.status(200).json(tag.rows);
+    const convertedData = converter(tags);
+    return res.status(200).json(convertedData);
   }
 }
 

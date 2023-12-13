@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styles from "./TaskForm.module.css";
 import Modal from "../../UI/Modal/Modal";
 import Input from "../../UI/Input/Input";
@@ -15,34 +15,93 @@ import useGetTimePeriod from "../../../hooks/useGetTimePeriod";
 import { useTranslation } from "react-i18next";
 import AddTagsToTask from "../../Tags/AddTagsToTask/AddTagsToTask";
 
-function TaskForm({ method, defultValue }) {
+function TaskForm({ method, defaultValue }) {
   const { t } = useTranslation();
   const listId = useParams().listId;
   const navigate = useNavigate();
   const [title, titleFunc] = useInput(isNotEmpty);
-  const [descriprion, descriptionFunc] = useInput(notRequired);
+  const [description, descriptionFunc] = useInput(notRequired);
   const [deadline, deadlineFunc] = useInput(notRequired);
   const period = useGetTimePeriod(false);
+  const [tags, setTags] = useState([]);
+
+  const {setValue: setTitle} = titleFunc;
+  const {setValue: setDeadline} = deadlineFunc;
+  const {setValue: setDescription} = descriptionFunc;
+  const {set: setStartDate} = period.start.date;
+  const {set: setStartTime} = period.start.time;
+  const {set: setEndDate} = period.end.date;
+  const {set: setEndTime} = period.end.time;
 
   useEffect(() => {
-    if (defultValue) {
-      titleFunc.setValue(defultValue.title || "");
-      descriptionFunc.setValue(defultValue.description || "");
-      deadlineFunc.setValue(defultValue.deadline || "");
+    if (defaultValue) {
+      setTitle(defaultValue.title || "");
+      setDescription(defaultValue.description || "");
+      if (defaultValue.deadline) {
+        setDeadline(
+          new Date(defaultValue.deadline).toISOString().split("T")[0]
+        );
+      } else {
+        setDeadline("");
+      }
+
+      if (defaultValue.startTime && defaultValue.endTime) {
+        const startDate = new Date(defaultValue.startTime);
+        const endDate = new Date(defaultValue.endTime);
+        setStartDate(startDate.toISOString().split("T")[0] || "");
+        setStartTime(startDate.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1") || "");
+        setEndDate(endDate.toISOString().split("T")[0] || "");
+        setEndTime(endDate.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1") || "");
+      } else {
+        setStartDate("");
+        setStartTime("");
+        setEndDate("");
+        setEndTime("");
+      }
+
+      setTags(defaultValue.tags || []);
     }
-  }, [defultValue]);
+  }, [defaultValue, setTitle, setDeadline, setDescription, setStartDate,setStartTime, setEndDate, setEndTime]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (period.isValid) {
-      console.log(period.start.get());
-      console.log(period.end.get());
+    if (period.isValid && title.isValid && description.isValid && deadline.isValid) {
+      console.log({
+        title: title.value,
+        description: description.value,
+        listId: listId,
+        userId: 1,
+        deadline: deadline.value,
+        startTime: period.start.get(),
+        endTime: period.end.get(),
+        isDone: false,
+        isImportant: false,
+        isMyDay: false,
+        tags: tags.map(el => el.id)
+      })
+    } else {
+      period.blurAll();
+      titleFunc.handleBlur();
     }
   };
 
   const handleClose = () => {
+    period.reset();
+    titleFunc.reset();
+    deadlineFunc.reset();
+    descriptionFunc.reset();
+    setTags([]);
     navigate(`/lists/${listId}/tasks`);
   };
+
+  const handleAddTag = (tag) => {
+    setTags((prev) => [...prev, { ...tag }]);
+  };
+
+  const handleDeleteTag = (id) => {
+    setTags((prev) => prev.filter((el) => el.id !== id));
+  };
+
   return (
     <Modal className={styles.window} title={"Task Form"} onClose={handleClose}>
       <form onSubmit={handleSubmit} className={styles.form}>
@@ -75,6 +134,7 @@ function TaskForm({ method, defultValue }) {
               />
             </div>
           </div>
+          {title.isNotValid && <p className={styles.error}>Title id required</p>}
           <label htmlFor="task-deacription" className={styles.label}>
             {t("descriptionTask")}
           </label>
@@ -82,8 +142,8 @@ function TaskForm({ method, defultValue }) {
             id="task-deacription"
             name="description"
             className={styles.textarea}
-            value={descriptionFunc.value}
-            isNotValid={descriprion.isNotValid}
+            value={description.value}
+            isNotValid={description.isNotValid}
             onChange={descriptionFunc.handleChange}
             onBlur={descriptionFunc.handleBlur}
           />
@@ -129,7 +189,12 @@ function TaskForm({ method, defultValue }) {
               />
             </span>
           </label>
-          <AddTagsToTask/>
+          {!period.isValid && period.message && <p className={styles.error}>{period.message}</p>}
+          <AddTagsToTask
+            tags={tags}
+            onAddTag={handleAddTag}
+            onDeleteTag={handleDeleteTag}
+          />
         </div>
         <div className={styles.actions}>
           <SecondaryButton onClick={handleClose} type="button">
