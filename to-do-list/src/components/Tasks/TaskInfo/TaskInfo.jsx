@@ -9,6 +9,7 @@ import { setChosenTaskId } from "../../../store/singleListSlice";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import SimpleTag from '../../Tags/SimpleTag/SimpleTag';
 
 const TaskInfo = ({ id }) => {
   const {t} = useTranslation()
@@ -93,6 +94,17 @@ const TaskInfo = ({ id }) => {
               </p>
             </div>
           </div>
+        </div>
+        <div>
+        <h3 className={styles.label}>Tags</h3>
+        <ul className={styles.tagsToEnter}>
+          {task.tags.map((el) => (
+            <SimpleTag
+              title={el.title}
+              key={el.id}
+            />
+          ))}
+        </ul>
         </div>
       </div>
       <div className={styles.actions}>

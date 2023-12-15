@@ -37,13 +37,26 @@ const singleListSlice = createSlice({
         title: action.payload.title || state.tasks[taskIndex].title,
         description:
           action.payload.description || state.tasks[taskIndex].description,
-        isDone: action.payload.isDone || state.tasks[taskIndex].isDone,
         startTime: action.payload.startTime || state.tasks[taskIndex].startTime,
         endTime: action.payload.endTime || state.tasks[taskIndex].endTime,
         deadline: action.payload.deadline || state.tasks[taskIndex].deadline,
         listId: action.payload.listId || state.tasks[taskIndex].listId,
+        userId: action.payload.userId || state.tasks[taskIndex].userId,
+        tags: action.payload.tags || state.tasks[taskIndex].userId.tags,
       };
-      state.lists[taskIndex] = newTaskItem;
+      state.tasks[taskIndex] = newTaskItem;
+    },
+    updateTaskStatus(state, action) {
+      const taskIndex = state.tasks.findIndex(
+        (task) => task.id === action.payload.id
+      );
+      const newTaskItem = {
+        ...state.tasks[taskIndex],
+        isDone: action.payload.isDone,
+        isMyDay: action.payload.isMyDay,
+        isImportant: action.payload.isImportant
+      };
+      state.tasks[taskIndex] = newTaskItem;
     },
     setSingleList(state, action) {
       state.id = action.payload.id;
@@ -132,26 +145,127 @@ export const {
   setPaginationRows,
   resetPagination,
   openAll,
-  addExtraRows
+  addExtraRows,
+  updateTaskStatus
 } = singleListSlice.actions;
 
 export default singleListSlice.reducer;
 
 export const getList = (id) => {
-  return async(dispatch) => {
-    const request = async() => {
+  return async (dispatch) => {
+    const request = async () => {
       const response = await fetch(`http://localhost:8080/api/full-list/${id}`);
-      if(!response.ok) {
-        throw new Error('Something went wrong');
+      if (!response.ok) {
+        throw new Error("Something went wrong");
       }
       const data = await response.json();
       return data;
-    }
+    };
     try {
       const data = await request();
       dispatch(setSingleList(data));
     } catch (error) {
       console.log(error);
     }
-  }
-}
+  };
+};
+
+export const postTask = (task) => {
+  return async (dispatch) => {
+    const requestTasks = async () => {
+      const response = await fetch("http://localhost:8080/api/task", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(task),
+      });
+      if (!response.ok) {
+        throw new Error("Something went wrong");
+      }
+      const data = await response.json();
+      return data;
+    };
+    try {
+      const data = await requestTasks();
+      dispatch(addTask(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const putTask = (task) => {
+  return async (dispatch) => {
+    console.log(task);
+    const requestTasks = async () => {
+      const response = await fetch(`http://localhost:8080/api/task/${task.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(task),
+      });
+      if (!response.ok) {
+        throw new Error("Something went wrong");
+      }
+      const data = await response.json();
+      return data;
+    };
+
+    try {
+      const data = await requestTasks();
+      dispatch(updateTask(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const changeTaskStatus = (taskStatus) => {
+  return async (dispatch) => {
+    const requestTasks = async () => {
+      const response = await fetch(`http://localhost:8080/api/task/status/${taskStatus.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(taskStatus),
+      });
+      if (!response.ok) {
+        throw new Error("Something went wrong");
+      }
+      const data = await response.json();
+      return data;
+    };
+
+    try {
+      const data = await requestTasks();
+      dispatch(updateTaskStatus(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const deleteTasks = (id) => {
+  return async (dispatch) => {
+    const requestTask = async () => {
+      const response = await fetch(`http://localhost:8080/api/task/${id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        throw new Error("Something went wrong");
+      }
+      const data = await response.json();
+      return data;
+    };
+
+    try {
+      const data = await requestTask();
+      dispatch(deleteTask(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};

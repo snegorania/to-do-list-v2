@@ -2,8 +2,7 @@ import React from 'react';
 import DeleteModal from '../components/UI/DeleteModal/DeleteModal';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { selectChosenTaskId, deleteTask } from '../store/singleListSlice';
-import { deleteTaskToData } from '../store/dataSlice';
+import { selectChosenTaskId, deleteTasks } from '../store/singleListSlice';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -13,8 +12,14 @@ const DeleteTaskPage = () => {
     const id = useSelector(selectChosenTaskId);
     const dispatch = useDispatch();
     const handleDelete = () => {
-        dispatch(deleteTaskToData(id));
-        dispatch(deleteTask(id));
+        const tasksOrder = JSON.parse(localStorage.getItem("tasksOrder"));
+        const newOrder = [];
+        for (let i = 0; i < tasksOrder.length; i++) {
+            newOrder.push({list: tasksOrder[i].list, tasks: tasksOrder[i].tasks.filter(el => el.id !== id)});
+        }
+        localStorage.removeItem("taskOrder");
+        localStorage.setItem("tasksOrder", JSON.stringify(newOrder));
+        dispatch(deleteTasks(id));
         navigate('..');
     }
 

@@ -68,6 +68,13 @@
     padding-bottom: 20px;
 }
 
+.tagsToEnter {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    list-style: none;
+}
+
 @media only screen and (min-width: 500px) {
     .window {
         width: 600px;
@@ -125,6 +132,7 @@
         font-size:  20px;
     }
 }
+
 
 @media only screen and (min-width: 766px) {
     .wrapper {

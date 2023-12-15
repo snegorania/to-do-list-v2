@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styles from "./TasksPage.module.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { selectPagination, selectSingleList } from "../store/singleListSlice";
 import TaskList from "../components/Tasks/TaskList";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Pagination from "../components/UI/Pagination/Pagination";
 import { pagination } from "../utils/pagination";
@@ -11,7 +11,6 @@ import PaginationSettings from "../components/UI/PaginatonSettings/PaginationSet
 import { getPaginationBorders } from "../utils/pagination";
 import { addTaskOrder, addNewListToOrder, orderTasks } from "../utils/drag-n-drop";
 import { useResize } from "../hooks/useResize";
-import { getList } from "../store/singleListSlice";
 
 const TasksPage = () => {
   const { t } = useTranslation();
@@ -24,8 +23,10 @@ const TasksPage = () => {
 
   useEffect(() => {
     let arrayIdOrder = JSON.parse(localStorage.getItem("tasksOrder"));
-    if (!arrayIdOrder && list.tasks.length) {
+
+    if (!arrayIdOrder) {
       arrayIdOrder = addTaskOrder(list.id, list.tasks);
+      localStorage.setItem("tasksOrder", JSON.stringify(arrayIdOrder));
     }
 
     let myObj = arrayIdOrder.find((el) => el.list === list.id);

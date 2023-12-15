@@ -14,6 +14,8 @@ import { useParams } from "react-router-dom";
 import useGetTimePeriod from "../../../hooks/useGetTimePeriod";
 import { useTranslation } from "react-i18next";
 import AddTagsToTask from "../../Tags/AddTagsToTask/AddTagsToTask";
+import { postTask, putTask } from "../../../store/singleListSlice";
+import { useDispatch } from "react-redux";
 
 function TaskForm({ method, defaultValue }) {
   const { t } = useTranslation();
@@ -24,14 +26,15 @@ function TaskForm({ method, defaultValue }) {
   const [deadline, deadlineFunc] = useInput(notRequired);
   const period = useGetTimePeriod(false);
   const [tags, setTags] = useState([]);
+  const dispatch = useDispatch();
 
-  const {setValue: setTitle} = titleFunc;
-  const {setValue: setDeadline} = deadlineFunc;
-  const {setValue: setDescription} = descriptionFunc;
-  const {set: setStartDate} = period.start.date;
-  const {set: setStartTime} = period.start.time;
-  const {set: setEndDate} = period.end.date;
-  const {set: setEndTime} = period.end.time;
+  const { setValue: setTitle } = titleFunc;
+  const { setValue: setDeadline } = deadlineFunc;
+  const { setValue: setDescription } = descriptionFunc;
+  const { set: setStartDate } = period.start.date;
+  const { set: setStartTime } = period.start.time;
+  const { set: setEndDate } = period.end.date;
+  const { set: setEndTime } = period.end.time;
 
   useEffect(() => {
     if (defaultValue) {
@@ -49,9 +52,14 @@ function TaskForm({ method, defaultValue }) {
         const startDate = new Date(defaultValue.startTime);
         const endDate = new Date(defaultValue.endTime);
         setStartDate(startDate.toISOString().split("T")[0] || "");
-        setStartTime(startDate.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1") || "");
+        setStartTime(
+          startDate.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1") ||
+            ""
+        );
         setEndDate(endDate.toISOString().split("T")[0] || "");
-        setEndTime(endDate.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1") || "");
+        setEndTime(
+          endDate.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1") || ""
+        );
       } else {
         setStartDate("");
         setStartTime("");
@@ -61,24 +69,64 @@ function TaskForm({ method, defaultValue }) {
 
       setTags(defaultValue.tags || []);
     }
-  }, [defaultValue, setTitle, setDeadline, setDescription, setStartDate,setStartTime, setEndDate, setEndTime]);
+  }, [
+    defaultValue,
+    setTitle,
+    setDeadline,
+    setDescription,
+    setStartDate,
+    setStartTime,
+    setEndDate,
+    setEndTime,
+  ]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (period.isValid && title.isValid && description.isValid && deadline.isValid) {
-      console.log({
-        title: title.value,
-        description: description.value,
-        listId: listId,
-        userId: 1,
-        deadline: deadline.value,
-        startTime: period.start.get(),
-        endTime: period.end.get(),
-        isDone: false,
-        isImportant: false,
-        isMyDay: false,
-        tags: tags.map(el => el.id)
-      })
+    if (
+      period.isValid &&
+      title.isValid &&
+      description.isValid &&
+      deadline.isValid
+    ) {
+      let task;
+      if (method === "post") {
+        task = {
+          title: title.value.trim(),
+          description: description.value.trim() || null,
+          listId: listId,
+          userId: 1,
+          deadline: deadline.value.trim() || null,
+          startTime: period.start.get(),
+          endTime: period.end.get(),
+          isDone: false,
+          isImportant: false,
+          isMyDay: false,
+          tags: tags.map((el) => el.id),
+        };
+        dispatch(postTask(task));
+      } else {
+        task = {
+          id: defaultValue.id,
+          title: title.value.trim(),
+          description: description.value.trim() || null,
+          listId: defaultValue.listId,
+          userId: 1,
+          deadline: deadline.value.trim() || null,
+          startTime: period.start.get(),
+          endTime: period.end.get(),
+          isDone: defaultValue.isDone,
+          isImportant: defaultValue.isImportant,
+          isMyDay: defaultValue.isMyDay,
+          tags: tags.map((el) => el.id),
+        };
+        dispatch(putTask(task));
+      }
+      period.reset();
+      titleFunc.reset();
+      deadlineFunc.reset();
+      descriptionFunc.reset();
+      setTags([]);
+      navigate(`/lists/${listId}/tasks`);
     } else {
       period.blurAll();
       titleFunc.handleBlur();
@@ -86,11 +134,6 @@ function TaskForm({ method, defaultValue }) {
   };
 
   const handleClose = () => {
-    period.reset();
-    titleFunc.reset();
-    deadlineFunc.reset();
-    descriptionFunc.reset();
-    setTags([]);
     navigate(`/lists/${listId}/tasks`);
   };
 
@@ -134,7 +177,9 @@ function TaskForm({ method, defaultValue }) {
               />
             </div>
           </div>
-          {title.isNotValid && <p className={styles.error}>Title id required</p>}
+          {title.isNotValid && (
+            <p className={styles.error}>Title id required</p>
+          )}
           <label htmlFor="task-deacription" className={styles.label}>
             {t("descriptionTask")}
           </label>
@@ -189,7 +234,9 @@ function TaskForm({ method, defaultValue }) {
               />
             </span>
           </label>
-          {!period.isValid && period.message && <p className={styles.error}>{period.message}</p>}
+          {!period.isValid && period.message && (
+            <p className={styles.error}>{period.message}</p>
+          )}
           <AddTagsToTask
             tags={tags}
             onAddTag={handleAddTag}

@@ -13,10 +13,18 @@ import { setChosenId } from "../../../store/listsSlice";
 import { useSelector } from "react-redux";
 import { selectImportant } from "../../../store/listsSlice";
 import { resetPagination } from "../../../store/singleListSlice";
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
-function ListMenuItem({ id, title, isMyDay, isTasks, isImportant, isUsers }) {
-  const {t} = useTranslation()
+function ListMenuItem({
+  id,
+  title,
+  isMyDay,
+  isTasks,
+  isImportant,
+  isUsers,
+  tagFilter,
+}) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const params = useParams();
   const idImportant = useSelector(selectImportant);
@@ -26,26 +34,30 @@ function ListMenuItem({ id, title, isMyDay, isTasks, isImportant, isUsers }) {
     dispatch(setChosenId(id));
     if (params.listId && params.listId === id) {
       navigate(`/lists/${idImportant}/tasks/delete-list`);
-    } else if (params.listId){
+    } else if (params.listId) {
       navigate(`tasks/delete-list`);
     } else {
-      navigate('delete-list');
+      navigate("delete-list");
     }
   };
 
   const handleEdit = () => {
     dispatch(setChosenId(id));
     if (params.listId) {
-      navigate('tasks/edit-list');
+      navigate("tasks/edit-list");
     } else {
       navigate(`edit-list`);
     }
-  }
+  };
 
   const handleNavigate = () => {
-    dispatch(resetPagination());
-    navigate(`/lists/${id}/tasks`)
-  }
+    if (tagFilter) {
+      navigate("/lists/tag-filter");
+    } else {
+      dispatch(resetPagination());
+      navigate(`/lists/${id}/tasks`);
+    }
+  };
 
   return (
     <div className={styles.list}>
@@ -77,7 +89,7 @@ function ListMenuItem({ id, title, isMyDay, isTasks, isImportant, isUsers }) {
       </div>
       {isUsers && (
         <div className={styles.controls}>
-          <AiTwotoneEdit className={styles.edit} onClick={handleEdit}/>
+          <AiTwotoneEdit className={styles.edit} onClick={handleEdit} />
           <BsTrashFill className={styles.delete} onClick={handleDelete} />
         </div>
       )}

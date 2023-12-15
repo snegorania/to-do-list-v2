@@ -14,6 +14,7 @@ import DeleteListPage from "./pages/DeleteListPage";
 import DeleteTaskPage from "./pages/DeleteTaskPage";
 import AllListsPage from "./pages/AllListsPage";
 import EditTaskPage from "./pages/EditTaskPage";
+import TagFilter from './components/Tasks/TagFilter/TagFilter'
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,25 @@ const router = createBrowserRouter([
             element: <EditListPage />,
           },
         ]
+      },
+      {
+        path: "/lists/tag-filter",
+        element: <TagFilter/>,
+        children: [
+          {
+            path: "delete-list",
+            element: <DeleteListPage />,
+          },
+          {
+            path: "add-list",
+            element: <AddListPage />,
+          },
+          {
+            path: "edit-list",
+            element: <EditListPage />,
+          },
+        ]
+
       },
       {
         path: "/lists/:listId",

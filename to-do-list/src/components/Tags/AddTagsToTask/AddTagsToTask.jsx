@@ -4,7 +4,6 @@ import SimpleTag from "../SimpleTag/SimpleTag";
 import Input from "../../UI/Input/Input";
 import PrimaryButton from "../../UI/PrimaryButton/PrimaryButton";
 import styles from "./AddTagsToTask.module.css";
-import { nanoid } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { selectAllTags } from "../../../store/tagsSlice";
 import { useDispatch } from "react-redux";
@@ -24,15 +23,25 @@ const AddTagsToTask = ({ onAddTag, onDeleteTag, tags }) => {
     setTitle(value.trim());
   };
 
-  const handleAddNewTag = () => {
+  const handleAddNewTag = async() => {
     if (title.trim().length === 0) return;
     const index = allTags.findIndex((tag) => tag.title === title);
     if (index !== -1) {
       handleAddToTask(allTags[index].id);
     } else {
-      const id = nanoid();
-      dispatch(addTag({ id, title }));
-      onAddTag({ id, title });
+      const response = await fetch('http://localhost:8080/api/tag', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({title: title, userId: 1})
+      });
+      if (!response.ok) {
+        throw new Error('Something went wrong');
+      }
+      const newTag = await response.json();
+      dispatch(addTag({ id: newTag.id, title: newTag.title }));
+      onAddTag({ id: newTag.id, title: newTag.title });
     }
 
     setTitle("");
@@ -58,7 +67,7 @@ const AddTagsToTask = ({ onAddTag, onDeleteTag, tags }) => {
           value={title}
           onChange={handleTitle}
         />
-        <PrimaryButton onClick={handleAddNewTag}>Add</PrimaryButton>
+        <PrimaryButton onClick={handleAddNewTag} type='button'>Add</PrimaryButton>
       </div>
       <ul className={styles.tagsToEnter}>
         {allTags

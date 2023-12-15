@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 const EditTaskPage = () => {
     const id = useSelector(selectChosenTaskId);
     const task = useSelector((state) => selectTaskById(state, id));
-    return <TaskForm defaultValue={task}/>
+    return <TaskForm defaultValue={task} method={'put'}/>
 }
 
 export default EditTaskPage;

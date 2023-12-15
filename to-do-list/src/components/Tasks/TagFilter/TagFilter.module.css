@@ -1,0 +1,26 @@
+.section {
+  width: 100%;
+  padding: 10px;
+}
+
+.tasks {
+  list-style: none;
+  padding: 0;
+}
+
+.tagTaskForm {
+  display: flex;
+  padding-bottom: 10px;
+}
+
+.tagsToEnter {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  list-style: none;
+}
+
+.tagInput {
+  width: 400px;
+  margin-right: 10px;
+}

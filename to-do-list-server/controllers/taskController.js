@@ -45,14 +45,14 @@ class taskController {
     if (tags.length) {
       let tagListQuery = "INSERT INTO tag_list_table(task_id, tag_id) VALUES";
       for (let i = 0; i < tags.length; i++) {
-        if(i === tags.length - 1) {
+        if (i === tags.length - 1) {
           tagListQuery = tagListQuery + `(${newTask.rows[0].id}, ${tags[i]})`;
         } else {
           tagListQuery = tagListQuery + `(${newTask.rows[0].id}, ${tags[i]}),`;
         }
       }
 
-      tagListQuery = tagListQuery + " RETURNING task_id;"
+      tagListQuery = tagListQuery + " RETURNING task_id;";
       const taskId = await db.query(tagListQuery);
 
       const taskTags = await db.query(
@@ -160,9 +160,7 @@ class taskController {
     const deleteTags = numberOldTags.filter(
       (el) => !numberNewTags.includes(el)
     );
-    const addTags = numberNewTags.filter(
-      (el) => !numberOldTags.includes(el)
-    );
+    const addTags = numberNewTags.filter((el) => !numberOldTags.includes(el));
 
     if (deleteTags.length) {
       let deleteTagsQuery = `DELETE FROM tag_list_table 
@@ -170,7 +168,8 @@ class taskController {
       if (deleteTags.length > 1) {
         for (let i = 1; i < deleteTags.length; i++) {
           deleteTagsQuery =
-          deleteTagsQuery + `OR (task_id = ${updatedTask.rows[0].id} AND tag_id = ${deleteTags[i]})`;
+            deleteTagsQuery +
+            `OR (task_id = ${updatedTask.rows[0].id} AND tag_id = ${deleteTags[i]})`;
         }
       }
 
@@ -180,8 +179,13 @@ class taskController {
     if (addTags.length) {
       let tagListQuery = "INSERT INTO tag_list_table (task_id, tag_id) VALUES";
       for (let i = 0; i < addTags.length; i++) {
-        tagListQuery =
-          tagListQuery + `(${updatedTask.rows[0].id}, ${addTags[i]})`;
+        if (i === addTags.length - 1) {
+          tagListQuery =
+            tagListQuery + `(${updatedTask.rows[0].id}, ${addTags[i]})`;
+        } else {
+          tagListQuery =
+            tagListQuery + `(${updatedTask.rows[0].id}, ${addTags[i]}),`;
+        }
       }
       await db.query(tagListQuery + ";");
     }
@@ -224,15 +228,113 @@ class taskController {
     return res.status(200).json(deletedTask.rows[0].id);
   }
 
-  async getOneTask(req, res) {
+  async updateTaskStatus(req, res) {
+    const { isMyDay, isDone, isImportant } = req.body;
     const id = req.params.id;
-    const task = await db.query(`SELECT * FROM task WHERE id = $1`, [id]);
 
-    if (task.rows.length === 0) {
+    const updatedTask = await db.query(
+      `UPDATE task
+          SET important = $1,
+              my_day = $2,
+              is_done = $3
+          WHERE id = $4 RETURNING id, important, my_day, is_done;`,
+      [isImportant, isMyDay, isDone, id]
+    );
+
+    if (updatedTask.rows.length === 0) {
       throw new Error("Incorrect id");
     }
 
-    return res.status(200).json(task.rows[0]);
+    const newStatus = {
+      id: updatedTask.rows[0].id,
+      isDone: updatedTask.rows[0].is_done,
+      isMyDay: updatedTask.rows[0].my_day,
+      isImportant: updatedTask.rows[0].important,
+    };
+
+    return res.status(200).json(newStatus);
+  }
+
+  async getFilteredTasks(req, res) {
+    const filtersText = req.query.filters;
+    if (filtersText) {
+      const filters = filtersText.split(",");
+
+      let getTasksQuery = `SELECT 
+    task_id,
+    task_title,
+    task_is_done,
+    task_description,
+    task_important,
+    task_my_day,
+    task_start_time,
+    task_end_time,
+    task_deadline,
+    task_list_id,
+    tag_id,
+    tag_title,
+    user_tag_id
+    FROM (SELECT 
+        task.id AS task_id,
+        task.title AS task_title,
+        task.is_done AS task_is_done,
+        task.description AS task_description,
+        task.important AS task_important,
+        task.my_day AS task_my_day,
+        task.start_time AS task_start_time,
+        task.end_time AS task_end_time,
+        task.deadline AS task_deadline,
+        task.list_id AS task_list_id,
+        tag.id AS tag_id,
+        tag.title AS tag_title,
+        tag.tag_user_id AS user_tag_id
+    FROM 
+        task LEFT JOIN tag_list_table ON task.id = tag_list_table.task_id 
+        LEFT JOIN tag ON tag_list_table.tag_id = tag.id) AS all_tasks INNER JOIN (SELECT tag_list_table.task_id AS filtered_tasks 
+    FROM tag_list_table 
+    WHERE tag_list_table.tag_id = ${filters[0]} `;
+      if (filters.length > 1) {
+        for (let i = 1; i < filters.length; i++) {
+          getTasksQuery =
+            getTasksQuery + `OR tag_list_table.tag_id = ${filters[i]} `;
+        }
+      }
+      getTasksQuery =
+        getTasksQuery +
+        `GROUP BY task_id 
+    HAVING COUNT(tag_id) = ${filters.length}) AS filtered ON all_tasks.task_id = filtered.filtered_tasks;`;
+
+      const filteredTasksWithTags = await db.query(getTasksQuery);
+
+      const map = filteredTasksWithTags.rows.reduce((r, i) => {
+        r[i.task_id] = r[i.task_id] || [];
+        r[i.task_id].push(i);
+        return r;
+      }, {});
+
+      const tasks = [];
+
+      for (let key in map) {
+        tasks.push({
+          id: map[key][0].task_id,
+          title: map[key][0].task_title,
+          description: map[key][0].task_description,
+          isDone: map[key][0].task_is_done,
+          isImportant: map[key][0].task_important,
+          isMyDay: map[key][0].task_my_day,
+          startTime: map[key][0].task_start_time,
+          endTime: map[key][0].task_end_time,
+          deadline: map[key][0].task_deadline,
+          listId: map[key][0].task_list_id,
+          tags: map[key].map((el) => {
+            return { id: el.tag_id, title: el.tag_title };
+          }),
+        });
+      }
+      res.status(200).json(tasks);
+    } else {
+      res.status(200).json([]);
+    }
   }
 }
 

@@ -32,7 +32,7 @@ const TaskList = ({ tasks, onDragEnd }) => {
             }`}
           >
             {taskList.map((el, index) => (
-              <Draggable key={el.id} draggableId={String(el.id)} index={index}>
+              <Draggable key={String(el.id)} draggableId={String(el.id)} index={index}>
                 {(provided) => (
                   <li
                     {...provided.draggableProps}
@@ -44,6 +44,7 @@ const TaskList = ({ tasks, onDragEnd }) => {
                       title={el.title}
                       isImportant={el.isImportant}
                       isMyDay={el.isMyDay}
+                      isDone={el.isDone}
                     />
                   </li>
                 )}
