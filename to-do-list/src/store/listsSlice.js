@@ -4,7 +4,8 @@ const listsSlice = createSlice({
   name: "lists",
   initialState: {
     lists: [],
-    chosenId: ''
+    chosenId: '',
+    loading: false
   },
   reducers: {
     addList(state, action) {
@@ -30,16 +31,20 @@ const listsSlice = createSlice({
     setChosenId(state, action) {
       state.chosenId = action.payload;
     },
+    setLoading(state) {
+      state.loading = !state.loading;
+    }
   },
 });
  
 
 export const selectAllLists = (state) => state.lists.lists;
+export const selectListsLoading = (state) => state.lists.loading;
 export const selectListById = (state, id) => state.lists.lists.find(list => id === list.id);
 export const selectImportant = (state) => state.lists.lists.find(list => list.isImportant).id;
 export const selectChosenId = (state) => state.lists.chosenId;
 export const selectChosenList = (state) => state.lists.lists.find(list => state.lists.chosenId === list.id);
-export const { addList, deleteList, updateList, setLists, setChosenId } = listsSlice.actions;
+export const { addList, deleteList, updateList, setLists, setChosenId, setLoading } = listsSlice.actions;
 
 export default listsSlice.reducer;
 
@@ -56,8 +61,10 @@ export const getLists = () => {
     }
 
     try{
+      dispatch(setLoading());
       const data = await fetchLists();
       dispatch(setLists(data));
+      dispatch(setLoading());
     } catch (error) {
       console.log(error);
     }
@@ -83,8 +90,10 @@ export const postList = (list) => {
     }
 
     try {
+      dispatch(setLoading());
       const data = await fetchLists();
       dispatch(addList(data));
+      dispatch(setLoading());
     } catch (error) {
       console.log(error);
     }
@@ -111,8 +120,10 @@ export const putList = (list) => {
     }
 
     try{
+      dispatch(setLoading());
       const data = await fetchLists();
       dispatch(updateList(data));
+      dispatch(setLoading());
     } catch (error) {
       console.log(error);
     }
@@ -132,8 +143,10 @@ export const deleteListRequest = (id) => {
       return responseId;
     }
     try {
+      dispatch(setLoading());
       const deleteId = await fetchLists();
       dispatch(deleteList(deleteId));
+      dispatch(setLoading());
     } catch (error) {
       console.log(error);
     }

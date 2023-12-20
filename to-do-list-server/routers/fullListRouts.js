@@ -114,7 +114,6 @@ router.get(
       tasks: tasks,
       userId: list.rows[0].list_user_id
     };
-
     return res.status(200).json(fullList);
   })
 );

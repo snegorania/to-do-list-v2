@@ -55,6 +55,18 @@ const router = createBrowserRouter([
             path: "edit-list",
             element: <EditListPage />,
           },
+          {
+            path: "delete-task",
+            element: <DeleteTaskPage />,
+          },
+          {
+            path: "edit-task",
+            element: <EditTaskPage />,
+          },
+          {
+            path: ":taskId",
+            element: <TaskPage isFilter={true} />,
+          },
         ]
 
       },
@@ -80,7 +92,7 @@ const router = createBrowserRouter([
               },
               {
                 path: ":taskId",
-                element: <TaskPage />,
+                element: <TaskPage isFilter={false} />,
               },
               {
                 path: "delete-list",

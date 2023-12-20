@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { selectAllTags } from "../../../store/tagsSlice";
 import { useDispatch } from "react-redux";
 import { postTag, putTag, deleteTags  } from "../../../store/tagsSlice";
+import { useTranslation } from "react-i18next";
 
 
 const TagModal = ({ onClose }) => {
@@ -15,6 +16,7 @@ const TagModal = ({ onClose }) => {
   const dispatch = useDispatch();
   const [tag, setTag] = useState("");
   const tags= useSelector(selectAllTags);
+  const {t} = useTranslation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -41,17 +43,17 @@ const TagModal = ({ onClose }) => {
   };
 
   return (
-    <Modal title="Tags" className={styles.window} onClose={onClose}>
+    <Modal title={t("tags")} className={styles.window} onClose={onClose}>
       <div className={styles.addTagToTask}>
         <form className={styles.tagTaskForm} onSubmit={handleSubmit}>
           <Input
             className={styles.tagInput}
-            placeholder="Enter tag"
+            placeholder={t("enterTag")}
             value={tag}
             name="tag"
             onChange={handleTagChange}
           />
-          <PrimaryButton>Add</PrimaryButton>
+          <PrimaryButton>{t("add")}</PrimaryButton>
         </form>
         <hr></hr>
         <ul className={styles.tagsToEnter}>

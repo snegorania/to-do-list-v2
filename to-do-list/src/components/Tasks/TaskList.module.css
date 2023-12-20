@@ -5,11 +5,6 @@
     margin: 0;
 }
 
-.scrollable {
-    height: auto;
-    overflow-y: visiable;
-}
-
 @media only screen and (min-width: 500px) {
     .scrollable {
         height: 435px;

@@ -20,6 +20,7 @@ const singleListSlice = createSlice({
       rows: 5,
       extraRows: 0,
     },
+    loading: false,
   },
   reducers: {
     addTask(state, action) {
@@ -76,17 +77,6 @@ const singleListSlice = createSlice({
     setChosenTaskId(state, action) {
       state.chosenId = action.payload;
     },
-    setPaginationRows(state, action) {
-      state.pagination.rows = action.payload;
-      state.pagination.allPages = pageNumberCount(
-        state.tasks.length,
-        action.payload
-      );
-      if (state.pagination.currentPage > state.pagination.allPages) {
-        state.pagination.currentPage = state.pagination.allPages;
-      }
-      state.pagination.extraRows = 0;
-    },
     setPaginationPage(state, action) {
       if (action.payload === -1) {
         state.pagination.currentPage = state.pagination.currentPage - 1;
@@ -120,19 +110,22 @@ const singleListSlice = createSlice({
       state.pagination.extraRows =
         state.pagination.extraRows + state.pagination.rows;
     },
+    setLoading(state) {
+      state.loading = !state.loading;
+    },
+    setFilteredTasks(state, action) {
+      state.tasks = action.payload; 
+    }
   },
 });
 
 export const selectSingleList = (state) => state.singleList;
-
+export const selectSingleListLoading = (state) => state.singleList.loading;
 export const selectTasks = (state) => state.singleList.tasks;
-
 export const selectPagination = (state) => state.singleList.pagination;
-
 export const selectTaskById = (state, id) => {
   return state.singleList.tasks.find((task) => id === task.id);
 };
-
 export const selectChosenTaskId = (state) => state.singleList.chosenId;
 
 export const {
@@ -142,11 +135,12 @@ export const {
   setSingleList,
   setChosenTaskId,
   setPaginationPage,
-  setPaginationRows,
   resetPagination,
   openAll,
   addExtraRows,
-  updateTaskStatus
+  updateTaskStatus,
+  setLoading,
+  setFilteredTasks
 } = singleListSlice.actions;
 
 export default singleListSlice.reducer;
@@ -162,8 +156,10 @@ export const getList = (id) => {
       return data;
     };
     try {
+      dispatch(setLoading());
       const data = await request();
       dispatch(setSingleList(data));
+      dispatch(setLoading());
     } catch (error) {
       console.log(error);
     }
@@ -187,8 +183,10 @@ export const postTask = (task) => {
       return data;
     };
     try {
+      dispatch(setLoading());
       const data = await requestTasks();
       dispatch(addTask(data));
+      dispatch(setLoading());
     } catch (error) {
       console.log(error);
     }
@@ -197,7 +195,6 @@ export const postTask = (task) => {
 
 export const putTask = (task) => {
   return async (dispatch) => {
-    console.log(task);
     const requestTasks = async () => {
       const response = await fetch(`http://localhost:8080/api/task/${task.id}`, {
         method: "PUT",
@@ -214,8 +211,10 @@ export const putTask = (task) => {
     };
 
     try {
+      dispatch(setLoading());
       const data = await requestTasks();
       dispatch(updateTask(data));
+      dispatch(setLoading());
     } catch (error) {
       console.log(error);
     }
@@ -240,8 +239,10 @@ export const changeTaskStatus = (taskStatus) => {
     };
 
     try {
+      dispatch(setLoading());
       const data = await requestTasks();
       dispatch(updateTaskStatus(data));
+      dispatch(setLoading());
     } catch (error) {
       console.log(error);
     }
@@ -262,8 +263,10 @@ export const deleteTasks = (id) => {
     };
 
     try {
+      dispatch(setLoading());
       const data = await requestTask();
       dispatch(deleteTask(data));
+      dispatch(setLoading());
     } catch (error) {
       console.log(error);
     }

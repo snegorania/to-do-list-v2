@@ -2,10 +2,11 @@
   display: flex;
   align-items: center;
   padding: 7px 20px;
-  background-color: yellow;
+  background-color: #57ba98;
   border-radius: 20px;
   margin-top: 5px;
   margin-right: 5px;
+  cursor: pointer;
 }
 
 .tagLabel {

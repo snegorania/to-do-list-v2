@@ -3,6 +3,7 @@ import Task from "./Task/Task";
 import styles from "./TaskList.module.css";
 import { DragDropContext, Draggable } from "react-beautiful-dnd";
 import { StrictModeDroppable as Droppable } from "../../utils/StrictModeDroppable";
+import Skeleton from "react-loading-skeleton";
 
 const TaskList = ({ tasks, onDragEnd }) => {
   const [taskList, setTaskList] = useState(tasks);
@@ -27,9 +28,7 @@ const TaskList = ({ tasks, onDragEnd }) => {
           <ul
             {...provided.droppableProps}
             ref={provided.innerRef}
-            className={`${styles["task-list"]} ${
-              tasks.length >= 7 && styles.scrollable
-            }`}
+            className={styles["task-list"]}
           >
             {taskList.map((el, index) => (
               <Draggable key={String(el.id)} draggableId={String(el.id)} index={index}>
@@ -45,11 +44,11 @@ const TaskList = ({ tasks, onDragEnd }) => {
                       isImportant={el.isImportant}
                       isMyDay={el.isMyDay}
                       isDone={el.isDone}
-                    />
+                    /> 
                   </li>
                 )}
               </Draggable>
-            ))}
+            )) || <Skeleton count={5}/>}
             {provided.placeholder}
           </ul>
         )}

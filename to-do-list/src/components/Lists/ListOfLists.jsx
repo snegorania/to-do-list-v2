@@ -1,12 +1,12 @@
 // import react, useSelector hook and list component
-import React, {useMemo, useEffect} from "react";
+import React, { useEffect} from "react";
 import ListMenuItem from "./ListMenuItem/ListMenuItem";
 import styles from "./ListOfLists.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import { selectListsFromData } from "../../store/dataSlice";
-import { selectAllLists, setLists } from "../../store/listsSlice";
-import { getTags } from "../../store/tagsSlice";
+import { selectAllLists, selectListsLoading } from "../../store/listsSlice";
 import { getLists } from "../../store/listsSlice";
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 
 const ListOfLists = () => {
@@ -15,15 +15,15 @@ const ListOfLists = () => {
 
   useEffect(() => {
     dispatch(getLists());
-    dispatch(getTags());
-  }, [getLists, dispatch, getTags]);
+  }, [dispatch]);
 
   const lists = useSelector(selectAllLists);
+  const loading = useSelector(selectListsLoading);
 
   return (
     <>
       <ul className={styles.lists}>
-        {lists.filter((el) => !el.isUsers).map((el) => (
+        {loading ? <Skeleton count={3} width='100%' height={45}/> : lists.filter((el) => !el.isUsers).map((el) => (
           <li key={el.id}>
             <ListMenuItem
               id={el.id}
@@ -35,7 +35,7 @@ const ListOfLists = () => {
             />
           </li>
         ))}
-        {lists.filter((el) => el.isUsers).map((el) => (
+        {loading ? <Skeleton count={3} width='100%' height={45}/> : lists.filter((el) => el.isUsers).map((el) => (
           <li key={el.id}>
             <ListMenuItem id={el.id} title={el.title} isUsers={el.isUsers} />
           </li>

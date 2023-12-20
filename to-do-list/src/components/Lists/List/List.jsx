@@ -1,7 +1,6 @@
-import React, { useState, useRef, useMemo, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "./List.module.css";
 import { useSelector } from "react-redux";
-import { selectListFromData } from "../../../store/dataSlice";
 import { FaListCheck } from "react-icons/fa6";
 import { IoIosArrowForward } from "react-icons/io";
 import { CSSTransition } from "react-transition-group";
@@ -12,11 +11,14 @@ import { useDispatch } from "react-redux";
 import {
   selectSingleList,
   getList,
+  selectSingleListLoading,
 } from "../../../store/singleListSlice";
 import { Outlet, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { IoMdArrowBack } from "react-icons/io";
 import { useResize } from "../../../hooks/useResize";
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const timeout = { enter: 400, exit: 200 };
 
@@ -26,9 +28,10 @@ const List = ({ id }) => {
 
   useEffect(() => {
     dispatch(getList(id));
-  }, [dispatch, getList, id]);
+  }, [dispatch, id]);
 
   const list = useSelector(selectSingleList);
+  const loading = useSelector(selectSingleListLoading);
 
   const [isOpen, setOpen] = useState(false);
   const descriptionRef = useRef();
@@ -42,7 +45,7 @@ const List = ({ id }) => {
 
   return (
     <section className={styles.section}>
-      <div className={styles["list-header"]}>
+    {loading ? <Skeleton height={50} className={styles.skeleton}/> : <div className={styles["list-header"]}>
         <div className={styles["heading-wrapper"]}>
           {list.isTasks && (
             <>
@@ -62,14 +65,14 @@ const List = ({ id }) => {
             <>
               {arrowLink}
               <IoTodayOutline className={styles["list-icon"]} />
-              <h2 className={styles["list-title"]}>{t("myDay")}</h2>
+              <h2 className={styles["list-title"]}>{loading? <Skeleton/>: t("myDay")}</h2>
             </>
           )}
           {list.isUsers && (
             <>
               {arrowLink}
               <FaListCheck className={styles["list-icon"]} />
-              <h2 className={styles["list-title"]}>{list.title}</h2>
+              <h2 className={styles["list-title"]}>{loading? <Skeleton/>: list.title}</h2>
             </>
           )}
         </div>
@@ -94,7 +97,7 @@ const List = ({ id }) => {
             </div>
           </CSSTransition>
         )}
-      </div>
+      </div>}
       {list.isUsers && list.description && (
         <>
           <hr className={styles.line} />

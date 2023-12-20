@@ -4,29 +4,21 @@ import styles from "./PaginationSettings.module.css";
 import { formPageOptions } from "../../../utils/pagination";
 import {
   setPaginationPage,
-  setPaginationRows,
   openAll,
   addExtraRows,
 } from "../../../store/singleListSlice";
 import { useDispatch } from "react-redux";
 import {useTranslation} from "react-i18next";
+import { useResize } from "../../../hooks/useResize";
 
 const PaginationSettings = ({ currentPage, allPagesNum, rows }) => {
   const {t} = useTranslation();
   const dispatch = useDispatch();
   const pageOptions = formPageOptions(allPagesNum);
-  const rowsOptions = [
-    { value: "5", label: "5" },
-    { value: "10", label: "10" },
-    { value: "15", label: "15" },
-  ];
+  const size = useResize(500);
 
   const handlePageChange = (value) => {
     dispatch(setPaginationPage(value));
-  };
-
-  const handleRowsChange = ({ value }) => {
-    dispatch(setPaginationRows(Number(value)));
   };
 
   const handleOpenAll = () => {
@@ -45,16 +37,7 @@ const PaginationSettings = ({ currentPage, allPagesNum, rows }) => {
       <button className={styles.paginationButton} onClick={handleOpenAll}>
         {t('openAll')}
       </button>
-      <div className={styles.selectInput}>
-        <label>{t('rows')}</label>
-        <Select
-          options={rowsOptions}
-          placeholder={rows}
-          onChange={handleRowsChange}
-          menuPlacement="auto"
-        />
-      </div>
-      <div className={styles.selectInput}>
+      { size.isScreenBp && <div className={styles.selectInput}>
         <label>{t('page')}</label>
         <Select
           options={pageOptions}
@@ -62,7 +45,7 @@ const PaginationSettings = ({ currentPage, allPagesNum, rows }) => {
           onChange={({ value }) => handlePageChange(Number(value))}
           menuPlacement="auto"
         />
-      </div>
+      </div>}
     </div>
   );
 };

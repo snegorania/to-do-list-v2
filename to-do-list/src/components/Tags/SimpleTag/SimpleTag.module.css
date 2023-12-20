@@ -1,8 +1,9 @@
 .tagV1 {
     margin: 5px 2px 0 0;
     padding: 7px 20px;
-    background-color: yellow;
+    background-color: #57ba98;
     border-radius: 20px;
     font-size: 100%;
-    color: black;
+    color: #000000;
+    cursor: pointer;
 }

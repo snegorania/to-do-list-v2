@@ -10,6 +10,7 @@
 
 .tagTaskForm {
   display: flex;
+  width: 100%;
   padding-bottom: 10px;
 }
 
@@ -21,6 +22,19 @@
 }
 
 .tagInput {
-  width: 400px;
+  width: 90%;
   margin-right: 10px;
+}
+
+.backIcon {
+  width: 25px;
+  height: 25px;
+  color: #000;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.header {
+  display: flex;
+  align-items: center;
 }

@@ -1,7 +1,6 @@
 // imports configure store function and reducers for lists, tasks, users, current user of app   
 import { configureStore } from '@reduxjs/toolkit'
 import listsReducer from './listsSlice';
-import dataReducer from './dataSlice';
 import singleListReducer from './singleListSlice';
 import tagsReducer from './tagsSlice';
 
@@ -9,7 +8,6 @@ import tagsReducer from './tagsSlice';
 export default configureStore({
     reducer: {
         lists: listsReducer,
-        data: dataReducer,
         singleList: singleListReducer,
         tags: tagsReducer
     }

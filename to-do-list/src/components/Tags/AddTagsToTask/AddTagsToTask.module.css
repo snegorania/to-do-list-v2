@@ -4,8 +4,7 @@
 }
 
 .addTagToTask {
-  padding: 10px;
-  width: 480px;
+  width: 100%;
 }
 
 .tagsToEnter {
@@ -16,6 +15,6 @@
 }
 
 .tagInput {
-  width: 400px;
+  width: 70%;
   margin-right: 10px;
 }

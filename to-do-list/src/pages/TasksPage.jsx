@@ -11,15 +11,20 @@ import PaginationSettings from "../components/UI/PaginatonSettings/PaginationSet
 import { getPaginationBorders } from "../utils/pagination";
 import { addTaskOrder, addNewListToOrder, orderTasks } from "../utils/drag-n-drop";
 import { useResize } from "../hooks/useResize";
+import { selectSingleListLoading } from "../store/singleListSlice";
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const TasksPage = () => {
   const { t } = useTranslation();
 
   const list = useSelector(selectSingleList);
+  const loading = useSelector(selectSingleListLoading);
   const paginationObj = useSelector(selectPagination);
   const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
   const size = useResize(500);
+  
 
   useEffect(() => {
     let arrayIdOrder = JSON.parse(localStorage.getItem("tasksOrder"));
@@ -77,25 +82,30 @@ const TasksPage = () => {
             + {t("addTask")}
           </button>
         )}
-        {size.isScreenBp &&<PaginationSettings
+        {size.isScreenBp && <PaginationSettings
           currentPage={paginationObj.currentPage}
           allPagesNum={paginationObj.allPages}
           rows={paginationObj.rows}
         />}
       </div>
-      <TaskList
-        tasks={size.isScreenBp ? pagination(
+      {loading? <Skeleton width='99%' height={50} count={5}/> : <TaskList
+        tasks={pagination(
           tasks,
           paginationObj.rows,
           paginationObj.currentPage,
           paginationObj.extraRows
-        ): tasks}
+        )}
         onDragEnd={handleDragEnd}
-      />
+      />}
       {size.isScreenBp && <Pagination
         currentPage={paginationObj.currentPage}
         allPagesNum={paginationObj.allPages}
       />}
+      {!size.isScreenBp && <PaginationSettings
+          currentPage={paginationObj.currentPage}
+          allPagesNum={paginationObj.allPages}
+          rows={paginationObj.rows}/>
+      }
       <Outlet />
     </section>
   );

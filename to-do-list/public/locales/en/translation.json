@@ -7,8 +7,8 @@
     "descriptionList": "List description",
     "titleTask": "Task title",
     "descriptionTask": "Task description",
-    "editListForm": "Edit List Form",
-    "addListForm": "Add List Form",
+    "editListForm": "Edit List",
+    "addListForm": "Add List",
     "addTask": "Add Task",
     "save": "Save",
     "cancel": "Cancel",
@@ -33,5 +33,11 @@
     "openMore": "Open {{rows}} next",
     "rows": "Rows:",
     "page": "Page:",
-    "allLists": "Your Task Lists"
+    "allLists": "Your Task Lists",
+    "tags": "tags",
+    "add": "Add",
+    "search": "Search",
+    "enterTag": "Enter tag",
+    "tagFilter": "Tag Filter",
+    "editTask": "Edit Task"
 }

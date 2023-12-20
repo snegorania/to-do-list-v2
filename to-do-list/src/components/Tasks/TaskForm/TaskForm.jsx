@@ -126,7 +126,7 @@ function TaskForm({ method, defaultValue }) {
       deadlineFunc.reset();
       descriptionFunc.reset();
       setTags([]);
-      navigate(`/lists/${listId}/tasks`);
+      navigate(`..`);
     } else {
       period.blurAll();
       titleFunc.handleBlur();
@@ -134,7 +134,7 @@ function TaskForm({ method, defaultValue }) {
   };
 
   const handleClose = () => {
-    navigate(`/lists/${listId}/tasks`);
+    navigate('..');
   };
 
   const handleAddTag = (tag) => {
@@ -145,8 +145,10 @@ function TaskForm({ method, defaultValue }) {
     setTags((prev) => prev.filter((el) => el.id !== id));
   };
 
+  const formTitle = method === 'post' ? t('addTask') : t('editTask');
+
   return (
-    <Modal className={styles.window} title={"Task Form"} onClose={handleClose}>
+    <Modal className={styles.window} title={formTitle} onClose={handleClose}>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.wrapper}>
           <div className={styles["form-start"]}>

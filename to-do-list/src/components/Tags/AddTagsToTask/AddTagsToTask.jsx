@@ -8,11 +8,13 @@ import { useSelector } from "react-redux";
 import { selectAllTags } from "../../../store/tagsSlice";
 import { useDispatch } from "react-redux";
 import { addTag } from "../../../store/tagsSlice";
+import { useTranslation } from "react-i18next";
 
 const AddTagsToTask = ({ onAddTag, onDeleteTag, tags }) => {
   const allTags = useSelector(selectAllTags);
   const dispatch = useDispatch();
   const [title, setTitle] = useState("");
+  const {t} = useTranslation();
 
   const handleAddToTask = (id) => {
     const tag = allTags.find((el) => el.id === id);
@@ -62,12 +64,12 @@ const AddTagsToTask = ({ onAddTag, onDeleteTag, tags }) => {
       <div className={styles.tagTaskForm}>
         <Input
           className={styles.tagInput}
-          placeholder="Enter tag"
+          placeholder={t("enterTag")}
           name="tagTitle"
           value={title}
           onChange={handleTitle}
         />
-        <PrimaryButton onClick={handleAddNewTag} type='button'>Add</PrimaryButton>
+        <PrimaryButton onClick={handleAddNewTag} type='button'>{t("add")}</PrimaryButton>
       </div>
       <ul className={styles.tagsToEnter}>
         {allTags
