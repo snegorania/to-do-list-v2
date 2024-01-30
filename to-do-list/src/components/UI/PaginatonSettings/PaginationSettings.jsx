@@ -32,7 +32,7 @@ const PaginationSettings = ({ currentPage, allPagesNum, rows }) => {
   return (
     <div className={styles.paginationSettings}>
       <button className={styles.paginationButton} onClick={handleOpenMore}>
-        {t('openMore', {rows: rows})}
+        {t('openMore', {rows: 5})}
       </button>
       <button className={styles.paginationButton} onClick={handleOpenAll}>
         {t('openAll')}

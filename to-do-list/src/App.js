@@ -27,7 +27,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: "delete-list",
-            element: <DeleteListPage />,
+            element: <DeleteListPage isLists={true}/>,
           },
           {
             path: "add-list",
@@ -45,7 +45,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: "delete-list",
-            element: <DeleteListPage />,
+            element: <DeleteListPage isLists={false}/>,
           },
           {
             path: "add-list",

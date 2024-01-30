@@ -6,7 +6,7 @@ import { selectChosenId, deleteListRequest, selectImportant } from '../store/lis
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-const DeleteListPage = () => {
+const DeleteListPage = ({isLists}) => {
     const {t} = useTranslation();
     const navigate = useNavigate();
     const id = useSelector(selectChosenId);
@@ -18,7 +18,11 @@ const DeleteListPage = () => {
         const newOrder = tasksOrder.filter(el => el.list !== id);
         localStorage.setItem("tasksOrder", JSON.stringify(newOrder));
         dispatch(deleteListRequest(id));
-        navigate(`/lists/${importantId}/tasks`);
+        if(isLists) {
+            navigate('..');
+        } else {
+            navigate(`/lists/${importantId}/tasks`);
+        }
     }
 
     return <DeleteModal mode={t('listMode')} onDelete={handleDelete}/>

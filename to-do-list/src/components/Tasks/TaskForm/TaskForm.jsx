@@ -180,7 +180,7 @@ function TaskForm({ method, defaultValue }) {
             </div>
           </div>
           {title.isNotValid && (
-            <p className={styles.error}>Title id required</p>
+            <p className={styles.error}>{t("requiredTitle")}</p>
           )}
           <label htmlFor="task-deacription" className={styles.label}>
             {t("descriptionTask")}

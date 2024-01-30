@@ -33,7 +33,7 @@ const listsSlice = createSlice({
     },
     setLoading(state) {
       state.loading = !state.loading;
-    }
+    },
   },
 });
  

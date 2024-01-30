@@ -70,6 +70,9 @@ function ListForm ({listForEdit, method}) {
           onChange={titleFunc.handleChange}
           onBlur={titleFunc.handleBlur}
         />
+        {title.isNotValid && (
+            <p className={styles.error}>{t("requiredTitle")}</p>
+        )}
         <label htmlFor="list-deacription" className={styles.label}>{t("descriptionList")}</label>
         <Textarea
           id="list-deacription"

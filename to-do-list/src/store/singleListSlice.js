@@ -95,6 +95,7 @@ const singleListSlice = createSlice({
       }
 
       state.pagination.extraRows = 0;
+      state.pagination.rows = 5;
     },
     resetPagination(state) {
       state.pagination.rows = 5;
@@ -115,6 +116,26 @@ const singleListSlice = createSlice({
     },
     setFilteredTasks(state, action) {
       state.tasks = action.payload; 
+    },
+    cleanTags(state, action) {
+      const newTasks = [];
+      for (let i = 0; i < state.tasks.length; i++) {
+        newTasks.push({...state.tasks[i], tags: state.tasks[i].tags.filter(el => el.id !== action.payload)});
+      }
+      state.tasks = newTasks;
+    },
+    changeTags(state, action) {
+      let tagIndex = 0;
+      const newTagItem = {
+        id: action.payload.id,
+        title: action.payload.title
+      }
+      for (let i = 0; i < state.tasks.length; i++) {
+        tagIndex = state.tasks[i].tags.findIndex(
+          (tag) => tag.id === action.payload.id
+        );
+        state.tasks[i].tags[tagIndex] = newTagItem;
+      }
     }
   },
 });
@@ -140,7 +161,9 @@ export const {
   addExtraRows,
   updateTaskStatus,
   setLoading,
-  setFilteredTasks
+  setFilteredTasks,
+  cleanTags,
+  changeTags
 } = singleListSlice.actions;
 
 export default singleListSlice.reducer;
@@ -239,10 +262,8 @@ export const changeTaskStatus = (taskStatus) => {
     };
 
     try {
-      dispatch(setLoading());
       const data = await requestTasks();
       dispatch(updateTaskStatus(data));
-      dispatch(setLoading());
     } catch (error) {
       console.log(error);
     }

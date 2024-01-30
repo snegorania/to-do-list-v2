@@ -15,7 +15,7 @@ const DeleteTaskPage = () => {
         const tasksOrder = JSON.parse(localStorage.getItem("tasksOrder"));
         const newOrder = [];
         for (let i = 0; i < tasksOrder.length; i++) {
-            newOrder.push({list: tasksOrder[i].list, tasks: tasksOrder[i].tasks.filter(el => el.id !== id)});
+            newOrder.push({list: tasksOrder[i].list, tasks: tasksOrder[i].tasks.filter(el => el !== id)});
         }
         localStorage.removeItem("taskOrder");
         localStorage.setItem("tasksOrder", JSON.stringify(newOrder));

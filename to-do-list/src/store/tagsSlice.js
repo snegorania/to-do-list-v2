@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { cleanTags, changeTags } from "./singleListSlice";
 
 const tagsSlice = createSlice({
   name: "tags",
@@ -99,6 +100,7 @@ export const putTag = (tag) => {
     try {
       const data = await requestTags();
       dispatch(editTag(data));
+      dispatch(changeTags(data));
     } catch(error) {
       console.log(error);
     }
@@ -121,6 +123,7 @@ export const deleteTags = (id) => {
     try {
       const data = await requestTags();
       dispatch(deleteTag(data));
+      dispatch(cleanTags(data));
     } catch(error) {
       console.log(error);
     }

@@ -95,6 +95,14 @@ export const isNotPeriodValid = (
     if (isNotValidEndDate || isNotValidEndTime) message = 'End time is not valid timestamp';
   }
 
+  if (isNotEmpty(startDate) && isNotEmpty(startTime) && isNotEmpty(endDate) && isNotEmpty(endTime)) {
+    isNotValidStartDate = !isPeriodInputValid(startDate, startTime, endDate,endTime);
+    isNotValidStartTime = !isPeriodInputValid(startDate, startTime, endDate,endTime);
+    isNotValidEndDate = !isPeriodInputValid(startDate, startTime, endDate,endTime);
+    isNotValidEndTime = !isPeriodInputValid(startDate, startTime, endDate,endTime);
+    if (isNotValidStartDate || isNotValidStartTime || isNotValidEndDate|| isNotValidEndTime) message = 'Period is not valid';
+  }
+
   return {
     startDate: isNotValidStartDate,
     startTime: isNotValidStartTime,

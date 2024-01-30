@@ -39,5 +39,6 @@
     "search": "Search",
     "enterTag": "Enter tag",
     "tagFilter": "Tag Filter",
-    "editTask": "Edit Task"
+    "editTask": "Edit Task",
+    "requiredTitle": "Title is required" 
 }

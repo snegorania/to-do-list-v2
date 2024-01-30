@@ -28,6 +28,11 @@
     padding-bottom: 20px;
 }
 
+.error {
+    font-size: 13px;
+    color: red;
+    margin: 0;
+  }
 
 @media only screen and (min-width: 400px) {
     .form {
