@@ -6,4 +6,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=root
       - POSTGRES_USER=admin
+      - POSTGRES_DB=TASK_MANAGER
     image: postgres:14
+    volumes:
+      - dbdata:/var/lib/postgresql/data
